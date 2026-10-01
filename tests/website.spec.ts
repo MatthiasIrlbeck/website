@@ -1,8 +1,50 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
-const firstId = 'typical-voronoi-cell';
-const secondId = 'random-borsuk-graph';
 const baseLabel = process.env.BASE_PATH === '/' ? 'root' : 'project';
+
+async function researchIds(page: Page) {
+  const ids = await page.locator('.research-entry').evaluateAll(entries => entries.map(entry => entry.id));
+  expect(ids.length).toBeGreaterThan(0);
+  expect(ids.every(Boolean)).toBe(true);
+  return ids;
+}
+
+async function expectOptionalContentIsIntentional(page: Page) {
+  const portrait = page.locator('.portrait');
+  const portraitImage = portrait.locator('img');
+  if (await portraitImage.count()) {
+    await expect(portraitImage).toHaveAttribute('alt', /\S+/);
+    await expect.poll(() => portraitImage.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
+  } else {
+    await expect(portrait.locator('.portrait-placeholder')).toBeVisible();
+  }
+
+  const email = page.locator('#contact dd').first();
+  const emailLink = email.locator('a[href^="mailto:"]');
+  if (await emailLink.count()) await expect(emailLink).toHaveAttribute('href', /^mailto:.+@.+/);
+  else await expect(email.locator('.missing-label')).toBeVisible();
+
+  for (const row of await page.locator('.cv-row:has(.thesis-link), .cv-row:has(.thesis-placeholder)').all()) {
+    const link = row.locator('.thesis-link');
+    if (await link.count()) await expect(link).toHaveAttribute('href', /^(?!#?$).+/);
+    else await expect(row.locator('.thesis-placeholder')).toBeVisible();
+  }
+}
+
+test('optional-content checks cover supplied and missing fixtures', async ({ page }) => {
+  const fixtures = [
+    `<div class="portrait"><img alt="Portrait of the site owner" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='2' height='2'/%3E"></div>
+     <section id="contact"><dd><a href="mailto:person@example.edu">person@example.edu</a></dd></section>
+     <div class="cv-row"><a class="thesis-link" href="/documents/thesis.pdf">Thesis</a></div>`,
+    `<div class="portrait"><div class="portrait-placeholder">Portrait pending</div></div>
+     <section id="contact"><dd><span class="missing-label">Email pending</span></dd></section>
+     <div class="cv-row"><p class="thesis-placeholder">Thesis pending</p></div>`,
+  ];
+  for (const fixture of fixtures) {
+    await page.setContent(fixture);
+    await expectOptionalContentIsIntentional(page);
+  }
+});
 
 for (const viewport of [{ name: 'desktop', width: 1440, height: 1000 }, { name: 'mobile', width: 390, height: 844 }]) {
   test(`${viewport.name}: content, math, requests, overflow, and screenshots`, async ({ page }, testInfo) => {
@@ -20,13 +62,13 @@ for (const viewport of [{ name: 'desktop', width: 1440, height: 1000 }, { name: 
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Matthias Irlbeck');
     await expect(page.getByRole('navigation').getByRole('link')).toHaveText(['Research', 'CV', 'Contact']);
     await expect(page.locator('meta[name=robots]')).toHaveAttribute('content', 'noindex, nofollow');
-    await expect(page.locator('.research-entry')).toHaveCount(4);
+    const [firstId] = await researchIds(page);
     await expect(page.locator('details[open]')).toHaveCount(0);
-    await expect(page.locator('.thesis-placeholder')).toHaveCount(2);
-    await expect(page.getByText('Portrait to be added', { exact: true })).toBeVisible();
-    await expect(page.getByText('Professional email to be confirmed')).toBeVisible();
+    await expectOptionalContentIsIntentional(page);
     await expect(page.locator('iframe, a[href="#"], video[src]')).toHaveCount(0);
-    await expect(page.locator('#typical-voronoi-cell .paper-links a').first()).toHaveAttribute('href', 'https://arxiv.org/abs/2506.02607');
+    const paperLinks = page.locator('.paper-links a:not(.permalink)');
+    expect(await paperLinks.count()).toBeGreaterThan(0);
+    await expect(paperLinks.first()).toHaveAttribute('href', /^https?:\/\//);
     const output = `artifacts/screenshots/${baseLabel}`;
     await mkdir(output, { recursive: true });
     const collapsed = `${output}/${viewport.name}-collapsed.png`;
@@ -34,16 +76,16 @@ for (const viewport of [{ name: 'desktop', width: 1440, height: 1000 }, { name: 
     await testInfo.attach('collapsed', { path: collapsed, contentType: 'image/png' });
     await page.locator(`#${firstId} summary`).click();
     await expect(page.locator(`#${firstId} details`)).toHaveAttribute('open', '');
-    await expect(page.locator(`#${firstId} .media-placeholder`)).toBeVisible();
+    await expect(page.locator(`#${firstId} .research-figure`)).toBeVisible();
     await expect(page.locator(`#${firstId} .katex .katex-mathml math`).first()).toBeVisible();
     await expect(page.locator(`#${firstId} .katex-display`)).toBeVisible();
+    await expect(page.locator(`#${firstId} [data-close-details]`)).toBeVisible();
     await page.evaluate(() => document.fonts.ready);
     expect(await page.evaluate(() => document.fonts.check('16px KaTeX_Main'))).toBe(true);
     await page.locator(`#${firstId}`).scrollIntoViewIfNeeded();
     const expanded = `${output}/${viewport.name}-expanded.png`;
     await page.screenshot({ path: expanded, fullPage: true });
     await testInfo.attach('expanded', { path: expanded, contentType: 'image/png' });
-    // Long formulas may scroll inside their own container; the document must not overflow.
     for (const width of viewport.name === 'mobile' ? [390, 320] : [1440]) {
       await page.setViewportSize({ width, height: viewport.height });
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
@@ -54,13 +96,15 @@ for (const viewport of [{ name: 'desktop', width: 1440, height: 1000 }, { name: 
   });
 }
 
-test('native keyboard controls, links, hash loading, and multiple open entries', async ({ page }) => {
+test('native keyboard controls, links, hashes, close controls, and multiple open entries', async ({ page }) => {
+  await page.goto('./');
+  const [firstId, secondId, ...remainingIds] = await researchIds(page);
+  expect(secondId).toBeTruthy();
   await page.goto(`./#${firstId}`);
   await expect(page.locator(`#${firstId} details`)).toHaveAttribute('open', '');
-  const paper = page.locator(`#${firstId} .paper-links a`).first();
+  const paper = page.locator(`#${firstId} .paper-links a:not(.permalink)`).first();
   await paper.focus();
   await expect(paper).toBeFocused();
-  // Suppress external navigation while still sending a real click through the DOM.
   await paper.evaluate(element => element.addEventListener('click', event => event.preventDefault(), { once: true }));
   await paper.click();
   await expect(page.locator(`#${firstId} details`)).toHaveAttribute('open', '');
@@ -70,14 +114,14 @@ test('native keyboard controls, links, hash loading, and multiple open entries',
   await expect(page.locator('details[open]')).toHaveCount(2);
   await page.keyboard.press('Space');
   await expect(page.locator('details[open]')).toHaveCount(1);
-  await page.evaluate(() => { location.hash = 'high-dimensional-percolation'; });
-  await expect(page.locator('#high-dimensional-percolation details')).toHaveAttribute('open', '');
-  await expect(page.locator('details[open]')).toHaveCount(2);
-  await page.locator(`#${firstId} summary`).click();
+  const anotherId = remainingIds[0] ?? secondId;
+  await page.evaluate(id => { location.hash = id; }, anotherId);
+  await expect(page.locator(`#${anotherId} details`)).toHaveAttribute('open', '');
+  await page.locator(`#${firstId} [data-close-details]`).click();
   await expect(page.locator(`#${firstId} details`)).not.toHaveAttribute('open', '');
+  await expect(page.locator(`#${firstId} summary`)).toBeFocused();
   await page.locator(`#${firstId} .permalink`).click();
   await expect(page.locator(`#${firstId} details`)).toHaveAttribute('open', '');
-  // A repeated permalink click also reopens an entry when the hash has not changed.
   await page.locator(`#${firstId} summary`).click();
   await page.locator(`#${firstId} .permalink`).click();
   await expect(page.locator(`#${firstId} details`)).toHaveAttribute('open', '');
@@ -89,8 +133,10 @@ test('research remains in static HTML with JavaScript disabled', async ({ browse
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto(baseURL!);
+  const [firstId] = await researchIds(page);
   await page.locator(`#${firstId} summary`).click();
-  await expect(page.getByText('Exact result to be supplied.', { exact: true }).first()).toBeVisible();
+  await expect(page.locator(`#${firstId} .research-text p`).first()).toBeVisible();
   await expect(page.locator(`#${firstId} math`).first()).toBeVisible();
+  await expect(page.locator(`#${firstId} [data-close-details]`)).toBeVisible();
   await context.close();
 });

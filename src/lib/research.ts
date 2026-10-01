@@ -17,6 +17,11 @@ for (const link of document.querySelectorAll<HTMLAnchorElement>('.permalink')) {
 }
 
 for (const details of document.querySelectorAll<HTMLDetailsElement>('.research-details')) {
+  const summary = details.querySelector<HTMLElement>('summary');
+  details.querySelector<HTMLButtonElement>('[data-close-details]')?.addEventListener('click', () => {
+    details.open = false;
+    summary?.focus();
+  });
   details.addEventListener('toggle', () => {
     if (!details.open) details.querySelectorAll('video').forEach(video => video.pause());
   });
