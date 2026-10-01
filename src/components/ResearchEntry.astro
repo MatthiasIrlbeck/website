@@ -1,0 +1,37 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import ResearchMedia from './ResearchMedia.astro';
+import { profile } from '../data/profile';
+import { assetUrl, isDraft } from '../lib/site';
+interface Props { entry: CollectionEntry<'research'> }
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { data, id } = entry;
+---
+<article class="research-entry" id={id}>
+  <div class="research-heading">
+    <span class="entry-number" aria-hidden="true">{String(data.order).padStart(2, '0')}</span>
+    <div class="entry-metadata">
+      <h3>{data.title}</h3>
+      <p class="coauthors">With {data.authors.join(', ')}</p>
+      <p class="paper-status">{data.status}</p>
+      <p class="paper-summary">{data.summary}</p>
+      <div class="paper-links">
+        {data.links.map(link => <a href={link.url}>{link.label}</a>)}
+        {!data.links.length && <span class="missing-label">Paper link to be confirmed</span>}
+        <a class="permalink" href={`#${id}`} aria-label={`Link to ${data.title}`}>Link to entry <span aria-hidden="true">#</span></a>
+      </div>
+    </div>
+    {profile.showResearchThumbnails && data.thumbnail && <img class="research-thumbnail" src={assetUrl(data.thumbnail.src)} alt={data.thumbnail.alt} width="140" height="100" loading="lazy" />}
+  </div>
+  <details class="research-details">
+    <summary><span class="disclosure-symbol" aria-hidden="true"></span><span>Details{data.media.length ? ' and video' : ''}</span></summary>
+    <div class="expanded-research">
+      <div class="research-text">
+        {isDraft && data.needsReview && <p class="editorial-note">Editorial draft · explanation and exact results await author review.</p>}
+        <Content />
+      </div>
+      <ResearchMedia clips={data.media} title={data.title} />
+    </div>
+  </details>
+</article>

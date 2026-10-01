@@ -1,0 +1,30 @@
+{
+  "name": "matthias-irlbeck-website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "check": "astro check && node scripts/check-content.mjs",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test:browser": "playwright test",
+    "test:paths": "npm run build && npm run test:browser && BASE_PATH=/ npm run build && BASE_PATH=/ npm run test:browser"
+  },
+  "dependencies": {
+    "@astrojs/markdown-remark": "7.3.1",
+    "astro": "7.3.5",
+    "katex": "0.18.10",
+    "rehype-katex": "7.0.1",
+    "remark-math": "6.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@playwright/test": "1.58.2",
+    "@types/node": "24.19.0",
+    "typescript": "6.0.3"
+  }
+}

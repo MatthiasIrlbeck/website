@@ -1,0 +1,28 @@
+---
+import { assetUrl } from '../lib/site';
+interface Clip { label: string; src: string; poster: string; caption: string }
+interface Props { clips: Clip[]; title: string }
+const { clips, title } = Astro.props;
+---
+<figure class="research-figure">
+  {clips.length ? (
+    <div class="media-player" data-media-player>
+      <div class="video-frame">
+        <video controls playsinline preload="none" aria-label={`Research media: ${title}`} data-video></video>
+        <div class="video-idle" data-idle><span>Research media</span><p>Select a clip, then choose Load and play.</p></div>
+      </div>
+      {clips.length > 1 && <div class="clip-options" role="group" aria-label="Choose a clip">
+        {clips.map((clip, i) => <button type="button" data-clip data-src={assetUrl(clip.src)} data-poster={assetUrl(clip.poster)} data-caption={clip.caption} aria-pressed={i === 0}>{clip.label}</button>)}
+      </div>}
+      <button type="button" class="load-video" data-load data-src={assetUrl(clips[0].src)} data-poster={assetUrl(clips[0].poster)}>Load and play video</button>
+      <p class="media-error" role="status" hidden data-error>This video could not be loaded. Try again, or read the explanation alongside it.</p>
+      <figcaption data-caption>{clips[0].caption}</figcaption>
+      <noscript><p>Video playback requires JavaScript to load media on request.</p></noscript>
+    </div>
+  ) : (
+    <>
+      <div class="media-placeholder"><span>Research media</span><strong>Video to be added</strong><p>An approved clip and poster will appear here.</p></div>
+      <figcaption>No media supplied. A future caption will explain the model and the limits of the illustration.</figcaption>
+    </>
+  )}
+</figure>
