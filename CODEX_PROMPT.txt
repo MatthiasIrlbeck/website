@@ -1,0 +1,9 @@
+Read AGENTS.md, WEBSITE_BRIEF.md, and CONTENT_NOTES.md in this repository. Implement the first reviewable website now; do not stop at a plan.
+
+Build the specified static Astro site in a new review branch. Use explicit, intentional placeholders for missing assets or unconfirmed content rather than asking me to supply everything first. Preserve the four-section homepage, expandable LaTeX research explanations and integrated videos, and thesis-link fields in the Short CV. Do not create any separate Animations page or tab.
+
+Install dependencies, implement the site and content structure, configure checks and the GitHub Pages deployment workflow, and run the build and browser checks. Inspect actual desktop and mobile screenshots, including an expanded research entry, and fix visible layout issues before finishing. Report any checks that could not run; do not claim missing-video playback was tested.
+
+Provide a reviewable branch and pull request when the interface allows it, or tell me the exact step to submit it. Do not merge, configure the live domain, edit DNS, or replace Google Sites. The first deployment target is the draft GitHub Pages project URL described in the brief.
+
+Finish with: actual test results; screenshots or their accessible artifact locations; missing-content checklist; exact steps to obtain the review URL; and the files I should edit for future content updates.
