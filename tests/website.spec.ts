@@ -1,6 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
-const baseLabel = process.env.BASE_PATH === '/' ? 'root' : 'project';
+import { basePath, homeUrl, isDraft, siteUrl } from '../src/lib/site';
+const baseLabel = !isDraft ? 'production' : basePath === '/' ? 'root' : 'project';
 
 async function researchIds(page: Page) {
   const ids = await page.locator('.research-entry').evaluateAll(entries => entries.map(entry => entry.id));
@@ -62,7 +63,8 @@ for (const viewport of [{ name: 'desktop', width: 1440, height: 1000 }, { name: 
     await page.goto('./');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Matthias Irlbeck');
     await expect(page.getByRole('navigation').getByRole('link')).toHaveText(['Research', 'CV', 'Contact']);
-    await expect(page.locator('meta[name=robots]')).toHaveAttribute('content', 'noindex, nofollow');
+    if (isDraft) await expect(page.locator('meta[name=robots]')).toHaveAttribute('content', 'noindex, nofollow');
+    else await expect(page.locator('meta[name=robots]')).toHaveCount(0);
     await expect(page.locator('.entry-number, .permalink, .draft-banner, .review-note, .editorial-note')).toHaveCount(0);
     expect(await page.locator('body').textContent()).not.toMatch(/\b(?:draft|approval|approved|verify|review)\b|Link to entry|Exact result to be supplied/i);
     const [firstId] = await researchIds(page);
@@ -531,14 +533,14 @@ test('subsection fragments open details and leave the heading below the mobile c
   }).toBe(true);
 });
 
-test('sharing assets, heading hierarchy, and narrow layouts', async ({ page, baseURL }) => {
+test('sharing assets, heading hierarchy, and narrow layouts', async ({ page }) => {
   await page.goto('./');
   await expect(page).toHaveTitle('Matthias Irlbeck');
   await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', 'Matthias Irlbeck');
-  const prefix = new URL(baseURL!).pathname;
-  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', `https://matthiasirlbeck.github.io${prefix}`);
+  const prefix = homeUrl;
+  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', new URL(homeUrl, siteUrl).href);
   const shareImage = (await page.locator('meta[property="og:image"]').getAttribute('content'))!;
-  expect(new URL(shareImage).pathname).toBe(`${prefix}images/Matthias_Irlbeck.jpg`);
+  expect(shareImage).toBe(new URL(`${prefix}images/Matthias_Irlbeck.jpg`, siteUrl).href);
   const imageResponse = await page.request.head(new URL(shareImage).pathname);
   expect(imageResponse.status()).toBe(200);
   const icon = (await page.locator('link[rel="icon"]').getAttribute('href'))!;

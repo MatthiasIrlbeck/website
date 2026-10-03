@@ -1,4 +1,4 @@
-name: Deploy draft to GitHub Pages
+name: Deploy website to GitHub Pages
 on:
   push:
     branches: [main]
@@ -12,9 +12,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      SITE_URL: https://matthiasirlbeck.github.io
-      BASE_PATH: /website
-      DRAFT_SITE: 'true'
+      SITE_URL: https://www.matthiasirlbeck.com
+      BASE_PATH: /
+      DRAFT_SITE: 'false'
       ASTRO_TELEMETRY_DISABLED: '1'
     steps:
       - uses: actions/checkout@v7

@@ -2,6 +2,10 @@
 
 Prepared for Matthias Irlbeck on 1 October 2026.
 
+## Current launch authorization — 3 October 2026
+
+The owner has authorized a separate launch-configuration PR for `https://www.matthiasirlbeck.com`. The production GitHub Actions build must explicitly set `SITE_URL=https://www.matthiasirlbeck.com`, `BASE_PATH=/`, and `DRAFT_SITE=false`, with no unintended indexing restrictions. Preserve the approved design and content. Keep draft defaults for continuing local editing and test both draft paths plus production output. This supersedes the historical draft-only deployment/indexing instructions below for production configuration preparation. Do not merge the launch PR or change Porkbun DNS, GitHub Pages settings, the live Google Sites site, or add a CNAME file; the owner will perform the cutover manually.
+
 ## Goal
 Build an actual, reviewable first version of a refined academic homepage, not another plan, an image-only mockup, or a generic portfolio template. The owner will judge it in a browser and supply revisions and missing assets. Implement one coherent design first; do not build three competing sites.
 
