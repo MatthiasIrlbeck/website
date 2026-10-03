@@ -1,28 +1,30 @@
 ---
 import { assetUrl } from '../lib/site';
+import { renderCaption } from '../lib/caption-markdown';
 interface Clip { label: string; src: string; poster: string; caption: string }
 interface Props { clips: Clip[]; title: string }
 const { clips, title } = Astro.props;
+const captions = await Promise.all(clips.map(clip => renderCaption(clip.caption)));
 ---
-<figure class="research-figure">
+<figure class:list={['research-figure', { 'media-player': clips.length > 0 }]} data-media-player={clips.length > 0 ? true : undefined}>
   {clips.length ? (
-    <div class="media-player" data-media-player>
+    <>
       <div class="video-frame">
-        <video controls playsinline preload="none" aria-label={`Research media: ${title}`} data-video></video>
-        <div class="video-idle" data-idle><span>Research media</span><p>Select a clip, then choose Load and play.</p></div>
+        <video muted loop playsinline preload="none" aria-label={`Research media: ${title}`} data-video hidden></video>
       </div>
+      <div class="video-idle" data-idle><span data-clip-label>{clips[0].label}</span></div>
       {clips.length > 1 && <div class="clip-options" role="group" aria-label="Choose a clip">
-        {clips.map((clip, i) => <button type="button" data-clip data-src={assetUrl(clip.src)} data-poster={assetUrl(clip.poster)} data-caption={clip.caption} aria-pressed={i === 0}>{clip.label}</button>)}
+        {clips.map((clip, i) => <button type="button" data-clip data-src={assetUrl(clip.src)} data-poster={assetUrl(clip.poster)} data-caption-index={i} aria-pressed={i === 0} hidden>{clip.label}</button>)}
       </div>}
-      <button type="button" class="load-video" data-load data-src={assetUrl(clips[0].src)} data-poster={assetUrl(clips[0].poster)}>Load and play video</button>
-      <p class="media-error" role="status" hidden data-error>This video could not be loaded. Try again, or read the explanation alongside it.</p>
-      <figcaption data-caption>{clips[0].caption}</figcaption>
-      <noscript><p>Video playback requires JavaScript to load media on request.</p></noscript>
-    </div>
+      <button type="button" class="load-video" data-load data-src={assetUrl(clips[0].src)} data-poster={assetUrl(clips[0].poster)} hidden>Play video</button>
+      <p class="media-error" role="status" hidden data-error>Video playback could not start. Choose Play video to try again.</p>
+      <noscript><style>.video-frame, .video-idle, .clip-options { display: none; }</style><p class="video-fallback">{clips.map(clip => <a href={assetUrl(clip.src)} target="_blank" rel="noopener noreferrer">Watch video: {clip.label}</a>)}</p></noscript>
+      {clips.length > 1 && captions.map((caption, i) => <template data-caption-template={i} set:html={caption} />)}
+      <figcaption data-caption set:html={captions[0]} />
+    </>
   ) : (
     <>
-      <div class="media-placeholder"><span>Research media</span><strong>Video to be added</strong><p>An approved clip and poster will appear here.</p></div>
-      <figcaption>No media supplied. A future caption will explain the model and the limits of the illustration.</figcaption>
+      <div class="media-placeholder"><span>Research media</span><strong>No video available</strong></div>
     </>
   )}
 </figure>

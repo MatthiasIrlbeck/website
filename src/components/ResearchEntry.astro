@@ -1,38 +1,42 @@
 ---
-import { render, type CollectionEntry } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
 import ResearchMedia from './ResearchMedia.astro';
 import { profile } from '../data/profile';
-import { assetUrl, isDraft } from '../lib/site';
+import { assetUrl } from '../lib/site';
+import { researchContent } from '../lib/research-content';
 interface Props { entry: CollectionEntry<'research'> }
 const { entry } = Astro.props;
-const { Content } = await render(entry);
+const { model, mainResult, interpretation } = researchContent(entry);
 const { data, id } = entry;
+const preprint = data.status === 'Preprint'
+  ? data.links.find(link => /^https:\/\/arxiv\.org\//.test(link.url))
+  : undefined;
+const statusReference = !preprint ? data.links.find(link => link.statusPrefix !== undefined) : undefined;
+const otherLinks = data.links.filter(link => link !== preprint && link !== statusReference);
 ---
-<article class="research-entry" id={id}>
+<article class="research-entry" id={id} aria-labelledby={`${id}-title`}>
   <div class="research-heading">
-    <span class="entry-number" aria-hidden="true">{String(data.order).padStart(2, '0')}</span>
     <div class="entry-metadata">
-      <h3>{data.title}</h3>
+      <h3 id={`${id}-title`}>{data.title}</h3>
       <p class="coauthors">With {data.authors.join(', ')}</p>
-      <p class="paper-status">{data.status}</p>
+      <p class="paper-status">{preprint ? <a class="preprint-link" href={preprint.url} target="_blank" rel="noopener noreferrer">Preprint: arXiv</a> : <>{data.status}{statusReference && <>{statusReference.statusPrefix}<a href={assetUrl(statusReference.url)} target="_blank" rel="noopener noreferrer">{statusReference.label}</a></>}</>}</p>
       <p class="paper-summary">{data.summary}</p>
-      <div class="paper-links">
-        {data.links.map(link => <a href={link.url}>{link.label}</a>)}
-        {!data.links.length && <span class="missing-label">Paper link to be confirmed</span>}
-        <a class="permalink" href={`#${id}`} aria-label={`Link to ${data.title}`}>Link to entry <span aria-hidden="true">#</span></a>
-      </div>
+      {otherLinks.length > 0 && <div class="paper-links">
+        {otherLinks.map(link => <a href={assetUrl(link.url)} target="_blank" rel="noopener noreferrer">{link.label}</a>)}
+      </div>}
     </div>
     {profile.showResearchThumbnails && data.thumbnail && <img class="research-thumbnail" src={assetUrl(data.thumbnail.src)} alt={data.thumbnail.alt} width="140" height="100" loading="lazy" />}
   </div>
   <details class="research-details">
-    <summary><span class="disclosure-symbol" aria-hidden="true"></span><span>Details{data.media.length ? ' and video' : ''}</span></summary>
-    <div class="expanded-research">
-      <div class="research-text">
-        {isDraft && data.needsReview && <p class="editorial-note">Editorial draft · explanation and exact results await author review.</p>}
-        <Content />
-      </div>
-      <ResearchMedia clips={data.media} title={data.title} />
+    <summary class="details-toggle"><span class="details-open-label">{data.media.length > 0 ? 'Details and animation' : 'Details'}</span><span class="details-close-label">Close details</span><span class="visually-hidden">: {data.title}</span></summary>
+    <div class:list={['expanded-research', { 'expanded-research--with-media': data.media.length > 0 }]}>
+      <div class="research-text research-model" set:html={model} />
+      <div class="research-text research-results" set:html={mainResult} />
+      {data.media.length > 0 && <div class="research-illustration">
+        <h4 id={`${id}-illustration`}>Illustration</h4>
+        <ResearchMedia clips={data.media} title={data.title} />
+      </div>}
+      <div class="research-text research-interpretation" set:html={interpretation} />
     </div>
-    <button type="button" class="close-details" data-close-details>Close details</button>
   </details>
 </article>

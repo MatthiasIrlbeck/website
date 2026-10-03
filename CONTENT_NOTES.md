@@ -1,6 +1,6 @@
-# Initial content notes — not publication approval
+# Content sources and confirmed owner wording
 
-These notes distinguish owner-provided facts from the existing public website and from missing content. Use them to seed the first draft. Do not browse unrelated private repositories for additional material.
+These notes record the current content's sources and the owner's confirmed updates. The original public homepage supplied the initial research list; later owner instructions and supplied assets supersede the old handoff's missing-content assumptions. Keep unresolved owner review and launch work in CONTENT_TODO.md. Do not browse unrelated private repositories for additional material.
 
 ## Confirmed direction and basic profile
 Name: Matthias Irlbeck.
@@ -9,70 +9,128 @@ Research areas: probability, percolation, random graphs, stochastic geometry.
 PhD: University of Groningen, 2022–2026.
 The owner wants English text and a biography of at most five sentences.
 
-Possible first-draft biography, subject to the owner's wording review:
-"I am a postdoctoral researcher in mathematics at the University of Hamburg. My research is in probability theory, with a focus on percolation, random graphs, and stochastic geometry. I completed my PhD at the University of Groningen."
+Owner-approved biography, used verbatim in `src/data/profile.ts`:
+"I am a postdoctoral researcher in mathematics at the University of Hamburg working together with Jack Hanson. Before that, I completed my PhD at the University of Groningen with Tobias Müller. My research is in discrete probability theory, with a focus on percolation, random graphs, and stochastic geometry."
 
 Do not import the old site's final-year-PhD introduction as current information.
 
-## Research metadata transcribed from the existing public homepage
+## Research metadata
 Source: https://www.matthiasirlbeck.com/ (read 1 October 2026).
-The homepage is known to be partly outdated. Preserve this metadata as a starting point and mark publication status for owner verification. Do not claim that a fresh arXiv/journal status check has occurred.
+The homepage is known to be partly outdated. It was the starting point, rather than evidence of current publication status. The three supplied arXiv pages were checked again on 3 October 2026 against the intended titles and author lists. The submission dates below are source records; the owner has requested that project years be omitted from the homepage. The arXiv pages have no journal reference; the targeted exact-title searches on 2 October did not find a journal version. Absence from those searches does not establish whether a manuscript has been accepted or submitted elsewhere, so keep the owner's publication labels pending owner review.
 
 ### 1. On the shape of the typical Poisson-Voronoi cell in high dimensions
 Coauthors: Zakhar Kabluchko and Tobias Müller.
 Existing link: https://arxiv.org/abs/2506.02607
-Suggested stable id: typical-voronoi-cell
+Initial arXiv submission: 3 June 2025.
+Stable id: typical-voronoi-cell
 
 ### 2. Thresholds for colouring the random Borsuk graph
 Coauthors: Álvaro Acitores Montero, Tobias Müller, and Matěj Stehlík.
 Existing link: https://arxiv.org/abs/2603.05467
-Suggested stable id: random-borsuk-graph
+Initial arXiv submission: 5 March 2026. The current linked version is v2, revised 7 March 2026.
+Stable id: random-borsuk-graph
 
 ### 3. Non-vanishing uniqueness threshold for hyperbolic Poisson-Voronoi percolation in dimension at least three
 Coauthor: Tobias Müller.
 Existing link: https://arxiv.org/abs/2607.17764
-Suggested stable id: hyperbolic-voronoi-percolation
+Initial arXiv submission: 20 July 2026.
+Stable id: hyperbolic-voronoi-percolation
 
 ### 4. Poisson-Voronoi percolation in high dimensions
 Coauthors: Zakhar Kabluchko and Tobias Müller.
-The old site says that a preprint is forthcoming. Current status and URL need confirmation; do not invent a link.
-Suggested stable id: high-dimensional-percolation
+Owner-confirmed status: "arXiv expected soon, complete argument is part of my PhD thesis". The PhD thesis is linked inline. No arXiv URL or submission year has been supplied.
+Stable id: high-dimensional-percolation
 
-For the first version these four entries are enough. Do not add research from private discussions to fill the list. Use short, conservative explanatory draft text. Mark longer descriptions as editorial drafts pending approval and use explicit placeholders for exact theorem statements that have not been supplied.
+These four entries define the current research list. Do not add research from private discussions to fill it. The owner requested another careful source audit and rewrite of all summaries and expanded descriptions on 3 October 2026. Remaining editorial review stays in CONTENT_TODO.md, rather than appearing on the homepage.
 
-## CV
-Suggested rows:
-- October 2026–present: Postdoctoral researcher, University of Hamburg.
-- 2022–2026: PhD in Mathematics, University of Groningen. Include the PhD thesis link when supplied.
-- [Master's dates to confirm]: Master's degree in Mathematics, LMU Munich. Include the master's thesis link when supplied.
-- [Bachelor's dates to confirm]: Bachelor's degree in Mathematics, LMU Munich.
+## Research copy audit — 3 October 2026
 
-The old page groups bachelor's/master's study as 2016–2021. Do not assign those entire years to each separate degree or infer the graduation dates.
+The previous displayed results were mathematically sound. The main weaknesses were generic summaries, omitted context, and explanations that spent space on elementary definitions while leaving some of the distinctive contributions unclear. All four summaries and expanded descriptions have now been rewritten for mathematicians outside the immediate specialty. The existing **Model**, **Main result**, and **Interpretation** structure remains. Metadata and paper/thesis destinations remain intact. The subsequent website audit updates media captions and presentation as recorded below.
 
-Thesis titles and URLs are not supplied. Use null URLs and a labelled "PDF to be added" state in draft mode, not broken anchors. Suggested final local paths, only after actual files are provided:
-- public/documents/phd-thesis.pdf
-- public/documents/masters-thesis.pdf
-- public/documents/cv.pdf (optional)
+The audit read the three papers' introductions, theorem statements, relevant definitions and proof outlines, together with the corresponding portions of the supplied PhD thesis. The revised descriptions select a few central results; they are not exhaustive abstracts. The following references explain both the claims and the editorial choices.
 
-## Missing assets and professional contact
-- Portrait file: not attached to this task.
-- Original video files: not attached to this task.
-- Chosen poster images: not attached to this task.
-- PhD thesis PDF or confirmed public repository URL: not supplied.
-- Master's thesis PDF or confirmed public repository URL: not supplied.
-- New Hamburg professional email and office details: not supplied.
+- **Typical cell:** [paper v1](https://arxiv.org/html/2506.02607v1), Theorem 1, Section 2, Proposition 3, Theorem 5 and Appendix A; supplied thesis Theorems 1.1–1.2 (printed pp. 4–5), Proposition 5.2 (p. 142), Section 5.2 (pp. 145–146), and Section 5.3 (p. 167). The typical cell is sampled by its site, not by volume. Inscribed and enclosing ball centres are freely chosen. The displayed ratios are r/R → 1/2, D/R → 2 and mean width/R → 2, all in probability. The revised copy also explains the common spherical shell containing all vertices and the distinction between almost all microscopic facets and exceptional large facets. The Hausdorff conclusion holds uniformly over every ball, including one chosen after observing the cell; the source gives a lower bound of `(1/16 − o(1))D`. These additions represent the breadth of the paper better than the radius ratio alone, for which its introduction acknowledges an independent proof by Alishahi. The scale-independent formulation also avoids the source discrepancy below.
+- **Random Borsuk graph:** [paper v2](https://arxiv.org/html/2603.05467v2), equation (1), Theorems 1, 2 and 4, Sections 1.2 and 5; thesis Theorems 1.7–1.10 (printed pp. 9–10), Section 4.1.3 (pp. 81–83), Section 4.5 (pp. 115–117), and Section 4.7 (pp. 138–139). For fixed d ≥ 2, loss of k-colourability for 2 ≤ k ≤ d occurs at alpha of order n^(−1/d), with mean degree of constant order. The revised text distinguishes the later transition to requiring d+2 colours, at order (log n/n)^(1/d), and credits Kahle and Martinez-Figueroa for that prior result. The sharp two-colour constant is determined by continuum AB percolation with independent clouds of equal intensity, not equal to its critical intensity without a scaling factor. Reflection and rescaling describe a local model, not global bipartiteness. For 3 ≤ k ≤ d+1, sharpness is proved along a density-one set of sample sizes; full-sequence sharpness and distinct constants for the intermediate transitions are not established. The thesis uses c_3 where the paper uses c_2 because it indexes the same event as chi ≥ 3 rather than chi > 2.
+- **Hyperbolic percolation:** [paper v1](https://arxiv.org/html/2607.17764v1), Section 1 and Theorem 1, Section 1.2, Propositions 13–14, Corollary 21, Propositions 22–23 and Section 4, Question 24; claims also checked against the [PDF](https://arxiv.org/pdf/2607.17764v1). For each fixed d ≥ 3, p_u(lambda) has a positive lower bound over every lambda > 0; the constant may depend on d. The revised description defines uniqueness precisely and adds the motivating contrast with products such as H² × H², where the threshold tends to zero with the intensity. The proof compares expected reduced-path counts with an auxiliary independent-edge model; it does not dominate the entire Delaunay graph by such a model. The paper does not establish p_c(lambda) → 0 in these dimensions, nor even existence of a limit of p_u(lambda) as lambda tends to zero. Neither is claimed on the website. This project is not a chapter of the supplied thesis.
+- **High-dimensional percolation:** supplied `public/documents/PhD_thesis_matthias_irlbeck.pdf`, Theorems 1.4 and 1.6 (printed p. 7 / PDF p. 12), Section 3.1.1 (pp. 17–19), Section 3.2.2 (pp. 21–30), Theorem 3.17 (p. 38), Theorem 3.33 (p. 57), and Section 3.5 (pp. 76–77). The threshold is asymptotic to e/(d 2^d); the expected number m_d of neighbours of a cell sampled by its site is asymptotic to d 2^d/e. Consequently p_c(d) m_d → 1. Rescaling removes dependence on intensity. The revision makes the branching-process prediction explicit while identifying unbounded random degrees and geometric dependence as the obstacles to proving it. Finite explorations and renormalisation give the upper bound; path counting gives the lower bound. The associated Gabriel-graph theorem is valid but omitted to keep this entry focused. Mean-field critical exponents remain conjectural, and no statement about behaviour exactly at p_c is made.
 
-Use explicit neutral placeholders. Do not generate a likeness, fabricate a video, reuse the old Groningen office, or substitute a residential address. Do not silently fall back to YouTube embeds.
+The product-space comparison was additionally checked in [D’Achille, Grebík, Khezeli, Recke and Wilkens, *Vanishing uniqueness thresholds in Voronoi percolation on products*, v1](https://arxiv.org/html/2511.23317v1), Theorem 2. It explicitly covers Riemannian products of at least two hyperbolic spaces, each of dimension at least two, including H² × H². This example should not be attributed to Grebík and Recke's property-(T) theorem alone.
 
-The existing clips can eventually be assigned to their relevant entries. The percolation entry may support labelled views such as tessellation, colouring, and connected component, but no actual media files or same-realization relationship have been verified here.
+### Apparent normalisation typo in the typical-cell source
 
-## Owner review checklist to carry into CONTENT_TODO.md
-- Approve or rewrite the biography.
-- Verify research titles, author spelling, order, and status.
-- Replace/review detailed explanations and exact mathematical claims.
-- Confirm which clips belong to each entry and supply web-ready copies.
-- Choose portrait and useful static poster/thumbnail frames.
-- Supply both thesis PDFs or public links and confirm titles/dates.
-- Supply current professional contact details.
-- Review desktop and mobile design, with and without optional thumbnails.
-- Approve the content before any live-domain migration.
+The paper's Theorem 1 and the supplied thesis's Theorem 1.1 divide lengths by `(lambda kappa_d)^(1/d)`, where kappa_d is the volume of the unit ball. The thesis PDF was visually inspected at PDF p. 9 / printed p. 4: this is not merely a text-extraction error. Poisson dilation and the source's own proof in Section 5.2, printed p. 145, require the reciprocal length scale `(lambda kappa_d)^(-1/d)`. For fixed intensity this scale is asymptotic to `sqrt(d/(2 pi e))`, whereas the displayed source uses its reciprocal. The normalised-intensity proofs still support the website's dimensionless ratios. Record this for the author's review; no paper or thesis file has been altered.
+
+The expanded high-dimensional percolation thesis link now requests `#page=12`, the PDF page containing Theorems 1.4 and 1.6 (printed page 7). Its label remains "PhD thesis"; the collapsed entry and CV retain the original whole-document URLs. PDF viewers decide whether to honour the page fragment.
+
+Video captions describe finite illustrations and their connection to the model: sphere points and lines represent Borsuk vertices and edges, while Voronoi neighbours connect across shared faces. The website audit adds directly visible rotation and drawing conventions: coloured Borsuk vertices and grey edges; grey hyperbolic cells with black edges; dark percolation cells with orange edges. Four frames spanning each supplied original were inspected. Captions distinguish a rotating viewpoint from an evolving simulation and finite pictures from the large-sample, full-space, or high-dimensional results. Exact dimensions, parameters, projection models, mathematical meanings of the Borsuk colours, and relationships between realizations remain unconfirmed. Thesis Figure 1.2 (printed p. 6 / PDF p. 11) labels a similar cluster d=3; Figure 1.3 (printed p. 8 / PDF p. 13) labels a similar Borsuk graph S², n=32, alpha=1, chi=3. Visual resemblance does not establish that these videos use the same realizations or parameters, so those specifics are not copied into captions. The favicon is an exact text-free crop of the supplied cover artwork; no cells have been generated or redrawn.
+
+## Second project-details audit — 3 October 2026
+
+The owner requested another careful audit after the presentation and cell-shape video changes. A second pass checked every displayed mathematical claim, its quantifiers, model conventions, interpretation and proof outline against the primary sources above. Independent reviews covered all four entries, including the collapsed summaries and captions. No incorrect main result was found. The following precision edits are now applied:
+
+- **Typical cell:** mean width averages uniformly over directions. The dimensionless shape ratios hold for any positive intensity sequence. Proposition 3, with k = 0, and Theorem 1 imply that every vertex's distance from the added origin, divided by R, tends uniformly to one in probability. Theorem 5 says that, for each fixed epsilon > 0, the proportion **by number** of facets with diameter above epsilon D tends to zero in probability; it does not describe their surface-area share. Macroscopic exceptional facets are supported by the discussion after Corollary 4 and the construction in Lemma 19 together with Lemmas 10–11. Appendix A gives a Hausdorff lower bound simultaneously over all balls, allowing the centre and radius to depend on the cell. The website keeps its weaker, valid positive-constant formulation.
+- **Borsuk:** Theorems 1–2 locate the early colourability transitions between constant multiples of n^(-1/d); they do not establish a distinct sharp constant for each transition. The two-colour result is stated with fixed relative margins. Section 5, PDF pp. 31–32, defines the unit-distance continuum AB model with two independent clouds, each of intensity lambda. Writing sigma_d = (d+1) kappa_(d+1) for the area of S^d, its critical intensity gives c_2(d) = (sigma_d lambda_AB(d))^(1/d), now displayed explicitly. The antipodal map is a local approximation before global odd-cycle construction. Theorem 4 proves sharpness of threshold sequences for 3 <= k <= d+1 on a density-one set; full-sequence sharpness remains Conjecture 55. The logarithmic-degree transition is checked against [Kahle and Martinez-Figueroa's original paper](https://arxiv.org/pdf/1901.08488), translating their Euclidean-distance parameter using epsilon = 2 - 2 cos(alpha/2).
+- **Hyperbolic:** Appendix A.5 establishes the invariant-event zero–one law, so positive probability of a unique unbounded cluster is equivalent to almost-sure uniqueness here. The lower bound is uniform over intensity for each fixed d >= 3, with a dimension-dependent constant allowed. The product-space comparison now links the five-author paper directly and specifies the Riemannian product. Propositions 13–14 and Corollary 21 compare expected reduced-path counts with an auxiliary independent-edge model; the prose describes that comparison precisely. The motivation was also checked against [Grebík and Recke, Question 10.1](https://arxiv.org/html/2504.02435v1).
+- **High-dimensional percolation:** the Poisson intensity is any lambda > 0, removable by dilation. The mean degree m_d is for the site-sampled cell, as defined in thesis Section 3.2.2, rather than a volume-biased or exploration-biased cell. Theorems 3.17 and 3.33 give the stated absence/existence conclusions at p = (1-epsilon)/m_d and p = (1+epsilon)/m_d for each fixed epsilon in (0,1) and all sufficiently large d. The upper-bound proof joins finite explorations through comparison with site percolation on Z^2. No assertion is made at the threshold itself, in a shrinking window, or about conjectural critical exponents.
+
+All four captions remain limited to visible drawing conventions and finite illustrations. Frames of the Borsuk and Euclidean percolation videos were inspected again; independent reviews inspected multiple typical-cell and hyperbolic frames. Exact simulation dimensions, projection conventions, parameters and colour meanings remain unconfirmed.
+
+### Apparent indexing typo in the Borsuk source
+
+The Borsuk v2 PDF, at the end of Section 4 on PDF p. 31, defines the final density-one set as N = N_4 intersect ... intersect N_(d+2). The preceding proof on p. 30 fixes 3 <= k <= d+1, and Theorem 4 correctly uses that same range. The displayed intersection appears to retain the thesis's earlier indexing of chi >= k. The actual PDF was visually checked, so this is not an HTML-extraction artifact. Record it for author review; the website keeps the correct theorem range and source PDFs remain unchanged.
+
+## Third project-details audit — 3 October 2026
+
+The owner's repeated audit request prompted an adversarial pass through the actual definitions and proof restrictions, checking where a reader could infer more than the source proves. All displayed formulas and theorem ranges remain valid. Four precision refinements are applied:
+
+- **Typical cell:** say that diameter and mean width are asymptotic to 2R; “approach” could wrongly suggest absolute differences tend to zero. Poisson dilation makes the **joint distribution** of the ratios intensity-independent, rather than equating quantities from unrelated realizations. The vertex statement still uses the added origin and does not place the optimally enclosing ball's centre there. Facet proportions follow from Theorem 5 via the average diameter and a Markov bound within each cell. The all-balls Hausdorff quantifier remains simultaneous.
+- **Borsuk:** explicitly take a small positive alpha(n), which justifies “nearly antipodal”; the model is not near-antipodal for arbitrary alpha. Theorem 4 supplies one common density-one set and threshold sequences alpha_k(n). The fixed-relative-margin colourability conclusions apply as n grows within that set. The per-cloud AB intensity and sphere-area scale were checked again; no factor two is missing. Conjecture 55 in the actual v2 PDF concerns full-sequence sharpness, while Conjectures 56–57 give its anticipated forms.
+- **Hyperbolic:** intensity is measured against hyperbolic volume (Section 2.3), clusters use continuous paths (Section 1), and adjacency uses cell intersection (Section 3.1). Auxiliary edge choices are independent **conditional on the point locations** (Section 3.4). Proposition 14 compares first-reaching-region counts R_n(h) and S_n(h) at lambda <= 1 and p <= 1/2. The auxiliary paths exclude guaranteed edges between nonconsecutive vertices; they may still have random chords and consecutive guaranteed edges. The explanation preserves these restrictions and notes the separate estimate for larger intensities in Proposition 23. The product contrast explicitly retains d >= 3.
+- **High-dimensional percolation:** thesis Section 3.1.1 and Section 3.3 couple selected, truncated finite explorations, rather than every connection in an entire cluster, to branching random walks. Section 3.4 counts black pseudopaths in a more generous adjacency relation containing the actual Delaunay edges. The website now states both restrictions. The lower-bound proof on printed p. 75 uses Mecke to pass from the added-origin cluster to almost-sure absence of any infinite black cluster, supporting the stated global conclusion.
+
+### Independent check of an exceptional large facet
+
+This deduction checks the typical-cell facet claim independently of the paper's introductory remark. At intensity 1/kappa_d, let z be the nearest Poisson site and a = z/2. For every other site w, `||w||^2 - z·w > 0`, so a is in the facet F separating z from the added origin. With probability tending to one, `0.9 < ||z|| < 1.1`, every cell vertex has norm between 0.9 and 1.1, and D < 2.2 (nearest-site concentration and Lemmas 10–11). Every vertex v of F satisfies `||v-a||^2 = ||v||^2 - ||a||^2 > 0.5075`. Since a is a convex combination of F's vertices, `diam(F) > sqrt(0.5075) > 0.3 D`. Dilation preserves this inequality. This supports the website's weaker statement that some facet has diameter at least cD for a fixed c > 0 with probability tending to one; the numerical constant is not added to the website.
+
+No new source error or unsupported media parameter was found. The apparent source-document typos previously recorded remain author-review tasks. This audit verifies the claims and proof explanations selected for the website; it does not certify every line of the complete research proofs.
+
+## CV and supplied documents
+
+The current rows are October 2026–present, postdoctoral researcher at the University of Hamburg; 2022–2026, PhD in Mathematics at the University of Groningen; 2019–2021, Master's degree in (Financial) Mathematics at LMU Munich; and 2016–2019, Bachelor's degree in (Financial) Mathematics at LMU Munich. The separate LMU dates and degree wording are owner-confirmed. The remaining date confirmation is tracked in CONTENT_TODO.md.
+
+The supplied PhD PDF is `public/documents/PhD_thesis_matthias_irlbeck.pdf`, titled *High-Dimensional Poisson–Voronoi Geometry and Threshold Phenomena*, with Tobias Müller as supervisor. The supplied master's PDF is `public/documents/Master thesis Matthias Irlbeck.pdf`, titled *Intrinsic Arm Exponents in High-Dimensional Percolation*, with Markus Heydenreich as supervisor. Titles were transcribed from the PDFs; supervisors are owner-confirmed. Both documents are present and linked beside their qualifications. The compatibility PhD filename remains available. No full CV PDF has been supplied.
+
+## Supplied media and professional contact
+
+The owner's portrait, four research clips, their optimized web renditions, and extracted posters are present locally. The four original videos are preserved byte-for-byte in ignored `source-assets/media/`, outside `public/`; web renditions and posters are packaged for deployment. This excludes 47,213,686 bytes of source video from local build artifacts as well as clean-checkout deployments. SHA-256 checks confirmed originals unchanged after relocation. Every research entry now has a supplied clip; no research thumbnails or extra views of one realization have been supplied. CONTENT_TODO.md contains the asset inventory and unresolved caption details. Preserve and separately back up the original assets and PDFs.
+
+On 3 October the owner supplied `public/media/0001-0900.mkv` for the high-dimensional cell-shape project. It is assigned to `typical-voronoi-cell`, following that explicit instruction. The 2400 × 2400, 30 fps H.264 MKV is converted to a 960 × 960 H.264/yuv420p fast-start MP4 with CRF 23 and a WebP poster extracted at 3 seconds. Frames at 3, 12 and 20 seconds show a rotating polyhedral visualization with coloured faces and outlined edges. The caption describes those visible features without asserting a dimension, projection convention, sampling parameters or mathematical meaning for the colours. Those specifics remain for owner confirmation. The original MKV is preserved as `source-assets/media/0001-0900.mkv` (SHA-256 `ef2577963a950cc4092a365cc5c503bfe2672abba01f64ea17959dd773b7f06e`).
+
+The owner confirms the plain-text email `matthias.irlbeck@uni-hamburg.de` and room 908 in the Geomatikum. The [University of Hamburg mathematics department](https://www.math.uni-hamburg.de/service/zentral.html) confirms Bundesstraße 55, 20146 Hamburg (checked 2 October 2026). The Contact invitation is the owner's "Feel free to reach out to me!"; no mailto or academic-profile links are displayed.
+
+At the owner's request, native videos play muted and loop only while the relevant details are open, the video is in view, and the tab is active. Manual pauses persist; reduced-motion preferences and an explicit browser `navigator.connection.saveData` preference keep playback manual. Browsers without the data-saving API retain the normal playback behaviour. Research review flags remain internal, and the page shows no Draft or approval notice. The review build still includes noindex metadata. Domain migration, production indexing, and publishing remain separate authorised work.
+
+
+## Website audit implementation — 3 October 2026
+
+The owner authorised all recommended website improvements. Research disclosures now say **Details and animation** for entries with media, **Details** otherwise, and **Close details** when open; the email control says **Copy email**, and the preprint label uses **arXiv**. These updates supersede the earlier control wording. Typical-cell details end with their interpretation without a missing-video notice. The short summaries use the brighter body-text colour, with slightly tighter metadata spacing.
+
+The HTML and mobile reading order is **Model → Main result → Illustration → Interpretation**. Desktop retains the text/figure split. The mobile sticky summary restores itself into view after user-initiated closing only when collapse would leave it outside the viewport. Ordinary closing that leaves the summary visible does not reposition the page.
+
+Print styles use dark text on white, compact spacing and figures, explicit arXiv URLs, hidden interactive controls, and unbroken CV rows. They preserve the visitor's open/closed research selection. The redundant manual-video helper sentence is removed. The exact biography, mathematical descriptions, thesis URLs, plain-text email, dark screen palette, one-page structure, and noindex review configuration remain as recorded above.
+
+The owner's later 3 October presentation edits remove the “Probability theory” heading above the name, the project years and both thesis PDF size labels. The profile text flows directly from the name into the biography, and thesis titles lead directly into their supervisor lines. The native disclosure reserves the same width and height for its open and closed labels, keeping **Close details** as large as **Details and animation**.
+
+## Owner wording and result layout — 3 October 2026
+
+The owner reordered the last two biography sentences and added “Before that” to the PhD sentence. The current approved biography above reflects that order. The typical-cell result now begins “Among other geometric properties, we prove that”; its three limits share one result box, aligned in a single row when the available text column exceeds 30rem and stacked vertically otherwise. The separate convergence sentence and redundant ball-approximation sentence were removed at the owner's request. The density-one qualifier remains in the Borsuk result; the requested final open-problem clause was removed.
+
+The owner confirms the cell-shape clip shows all cells intersecting a fixed ball. Its caption reads “All cells that intersect a fixed ball are shown here.” The owner also confirms the Borsuk example has $n=32$ vertices on $S^2$ and chromatic number $3$. These instructions supersede earlier provisional caption descriptions and the previously unresolved sample-size/sphere/colourability questions. Other simulation parameters, projection conventions and colour meanings remain unconfirmed. Caption mathematics uses locally bundled build-time KaTeX HTML and MathML, including the no-JavaScript fallback and multiple-clip switching/retry paths.
+
+“Kahle and Martinez-Figueroa” links to their primary arXiv record, *The chromatic number of random Borsuk graphs*, https://arxiv.org/abs/1901.08488, verified against its title and author list on 3 October 2026.
+
+## Owner percolation captions and attribution — 3 October 2026
+
+The owner confirms the Euclidean percolation video shows one finite cluster of black cells for $d=3$, and the hyperbolic video shows one finite cluster of black cells in the Poincaré half-space model. The current captions use that wording, superseding earlier provisional drawing descriptions and the unresolved Euclidean dimension/hyperbolic projection questions. The separate sentence “Here unboundedness refers to hyperbolic distance.” is removed at the owner's request.
+
+“Grebík and Recke” now links to [*Poisson-Voronoi percolation in higher rank*](https://arxiv.org/abs/2504.02435), by Jan Grebík and Konstantin Recke. The title, authors and [Question 10.1](https://arxiv.org/html/2504.02435v1) were verified on 3 October 2026; that question asks whether the uniqueness threshold tends to zero at low intensity on real hyperbolic space in dimension at least three.

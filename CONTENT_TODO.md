@@ -1,33 +1,132 @@
 # Content and launch checklist
 
-This is a public review draft. Missing values are intentional placeholders, not broken links. Academic metadata comes only from CONTENT_NOTES.md; no fresh publication-status check has been made.
+This is a public review draft on `review/current-academic-homepage`. Missing optional values are intentional states, not broken links. Academic metadata comes from CONTENT_NOTES.md and the owner's confirmed updates below. All research summaries and descriptions were audited and rewritten against primary sources on 3 October 2026; publication labels are unchanged. The arXiv pages show no journal reference and the 2 October targeted exact-title searches did not find a journal version, which does not establish whether a manuscript has been accepted or submitted elsewhere. Current publication status remains for the owner to confirm.
 
 ## Owner content review
 
-- [ ] Approve/rewrite the three-sentence biography in `src/data/profile.ts` and clear its review flag.
+- [x] Apply the owner's later 3 October presentation edits: remove the heading above the name and reflow the introduction, keep disclosure dimensions equal when open and closed, remove project years and omit both thesis PDF size labels.
+
+- [x] Use the owner's three-sentence biography, naming Jack Hanson at Hamburg and Tobias Müller at Groningen; put the PhD sentence second with “Before that, I completed…” as requested and clear the biography review flag.
 - [ ] Confirm the Hamburg role/start date and Groningen PhD dates.
-- [ ] Supply a local optimized portrait, alt text, and dimensions; no likeness has been generated.
+- [x] Integrate the supplied portrait with alt text and its actual dimensions; no likeness has been generated.
 - [ ] Verify all four research titles, coauthor spelling, order, and current publication status.
-- [ ] Review every research summary and explanation. All are editorial drafts.
-- [ ] Supply exact theorem statements, hypotheses, and interpretations for all four entries. The displayed formulas are labelled background definitions, not claims about the papers.
-- [ ] Confirm the existing arXiv links: 2506.02607, 2603.05467, 2607.17764.
-- [ ] Supply/confirm the status and paper URL for *Poisson-Voronoi percolation in high dimensions*; it currently has no link.
-- [ ] Supply approved web-ready videos, assign each to an entry, and supply poster frames and captions. No clip assignment or same-realization relationship is assumed.
-- [ ] For supplied media, record filename, byte size, dimensions/aspect ratio in this checklist; explain finite simulations versus infinite-volume/high-dimensional statements in captions.
+- [x] At the owner's request, replace generic research summaries and details with concise, self-contained model explanations and sourced main results for all four entries; record the source versions, theorem references, and limits in CONTENT_NOTES.md.
+- [x] Carefully revise all four expanded explanations again: define the model and parameters, state the main result with its hypotheses, and explain the interpretation and proof idea in approximately 235–270 words. Check the claims against the three primary papers and the supplied thesis, including freely chosen centres, density-one sharpness, uniform uniqueness bounds, and the neighbour-count asymptotic.
+- [x] Improve the expanded layout: consistent subsection headings, brighter body text, clear equation blocks, stacked long displays on small screens, and a readable single column for the entry without video. Use Model → Main result → Illustration → Interpretation in the HTML and mobile layout, pair text and media on desktop, and omit the absent-media notice (updated by the authorised 3 October website audit). Prefix subsection IDs with the entry ID.
+- [x] Fix video pause timing during immediate close/reopen or background/foreground changes; retain manual pauses and move keyboard focus to native controls after Play video. Correct multiple-clip caption targeting and make each caption the figure's direct last child. Verify multiple-clip switching and retries with an isolated local fixture.
+- [ ] Owner reviews the resulting research wording and emphasis.
+- [x] On 3 October, audit and rewrite all four short summaries and expanded descriptions against the papers, relevant thesis chapters, and proof outlines. Add the typical-cell vertex shell, mean width and uneven facet sizes; distinguish Borsuk's two degree regimes and retain density-one sharpness; explain the hyperbolic product-space contrast and reduced-path comparison; sharpen the Euclidean percolation threshold and branching-process interpretation. Preserve metadata and media, and record precise references in CONTENT_NOTES.md.
+- [ ] Author checks the apparent reciprocal normalisation typo in typical-cell paper Theorem 1 and thesis Theorem 1.1 (printed p. 4 / PDF p. 9). The displayed length scale disagrees with Poisson dilation and the proof in thesis Section 5.2 (p. 145). Website ratios remain valid; source PDFs have not been changed. See CONTENT_NOTES.md for the calculation.
+- [x] Perform the owner's second careful project-details audit: independently check all four descriptions, summaries and captions against primary material; clarify facet proportions and vertex distances, state the scaled AB-percolation constant, link the hyperbolic product comparison, and make the fixed-margin Euclidean percolation conclusions explicit. No incorrect main result was found. Record the claims and source-only issues in CONTENT_NOTES.md.
+- [x] Perform the requested third adversarial details audit: clarify relative rather than absolute length convergence, distributional intensity invariance, the small positive Borsuk parameter and common density-one set, conditional auxiliary edge independence and restricted path counts, and the selected explorations/pseudopaths in the Euclidean proof. Independently derive the exceptional large-facet conclusion. Keep the existing source-document review tasks; no new main-result error was found.
+- [ ] Author checks the apparent Borsuk v2 indexing typo at the end of Section 4 (PDF p. 31): the intersection uses N_4 through N_(d+2), while the preceding proof and Theorem 4 use k = 3 through d+1. The website preserves the correct theorem range; no source PDF has been edited.
+- [x] Fix the rendering mismatch found during visual review: pin the direct KaTeX dependency to 0.16.47, matching both math-rendering dependencies, and update the lockfile. The previous 0.18 stylesheet did not match their 0.16 HTML classes. Extend browser coverage to measure a visible exponent's size/position and check display widths; adjust the two long displays for narrow screens.
+- [x] Check the displayed mathematical statements and hypotheses against the three preprints and Chapter 3 of the supplied PhD thesis. Avoid conjectural mean-field claims and distinguish percolation from uniqueness thresholds.
+- [x] Confirm that the existing arXiv links 2506.02607, 2603.05467, and 2607.17764 resolve to the intended papers.
+- [x] Owner confirms *Poisson-Voronoi percolation in high dimensions*: arXiv expected soon; the complete argument is part of the PhD thesis. In the collapsed entry, display “arXiv expected soon, complete argument is part of my PhD thesis” with PhD thesis linked inline; remove the duplicate thesis sentence from the summary. Keep the corrected thesis linked in the expanded explanation as well.
+- [ ] Add the high-dimensional percolation arXiv URL when it is available.
+- [x] Integrate the supplied Voronoi percolation cluster video in the high-dimensional percolation entry, with an extracted poster and a caption distinguishing the finite simulation from the high-dimensional result.
+- [x] At the owner's request, play the video automatically, muted and looping, while details are open and the video is visible in the active tab; pause on close, scrolling away, or background tabs. Respect manual pauses and keep a manual play option for reduced motion or blocked playback.
+- [x] Integrate the supplied Borsuk and hyperbolic Poisson-Voronoi videos into their corresponding research entries, with smaller web copies and extracted WebP posters. Preserve originals, durations, frame rates, and Borsuk audio.
+- [x] Use one top native disclosure: “Details and animation” when media is available, “Details” otherwise, and “Close details” when expanded. Keep the “Copy email” button aligned with the address (labels updated by the authorised 3 October website audit).
+- [x] Record supplied asset filenames, byte sizes, and dimensions/aspect ratios below.
+- [x] Use the owner's Euclidean and hyperbolic finite-black-cluster captions, render d=3 as mathematics, remove the specified hyperbolic-distance sentence, and link Grebík and Recke to their verified arXiv paper.
+- [x] Use the owner's confirmed Borsuk caption: a random graph with $n=32$ on $S^2$ and chromatic number $3$. Render caption mathematics at build time, including after clip changes and retries and without JavaScript.
+- [ ] Confirm remaining simulation parameters, projection conventions and colour meanings for the supplied clips before adding further specifics. The Borsuk sample size, sphere and chromatic number, the cell-shape fixed-ball selection, the Euclidean cluster dimension d=3 and the hyperbolic Poincaré half-space model are now owner-confirmed. Similar thesis figures are not assumed to depict the supplied videos' realizations. Supply additional clips only if wanted.
+- [x] Remove project years from the homepage at the owner's latest request; keep verified submission dates in CONTENT_NOTES.md.
+- [x] Inspect multiple frames of each supplied video and improve captions with rotation/viewpoint and visible drawing conventions, vertices/edges or shared-face adjacency, and the distinction between finite illustrations and limiting results. Keep unverified mathematical colour meanings and simulation parameters pending.
+- [x] Point only the expanded high-dimensional percolation “PhD thesis” link to `#page=12`, containing Theorems 1.4 and 1.6 on printed page 7. Preserve the collapsed and CV document URLs and the thesis label. PDF viewers may ignore the page fragment.
+- [x] Replace obsolete handoff/review instructions with current branch, supplied-asset, autoplay, internal-review-flag and noindex behaviour. Record Chromium/Firefox success separately from unresolved WebKit media checks.
 - [ ] Decide whether optional research thumbnails are useful; supply alt text and set the global flag if wanted.
-- [ ] Confirm separate master's and bachelor's dates at LMU Munich. The old combined 2016–2021 range has not been assigned to either degree.
-- [ ] Supply PhD and master's thesis titles plus actual PDFs or confirmed HTTPS repository links. Both URL fields are currently null.
+- [x] Owner confirms the bachelor's degree (2016–2019) and master's degree (2019–2021) at LMU Munich, both displayed as (Financial) Mathematics.
+- [x] Link the supplied PhD and master's PDFs beside their qualifications. Use the corrected PhD version with its cover and blue links for all new links.
+- [x] Owner confirms thesis supervisors: Tobias Müller (PhD) and Markus Heydenreich (master's), displayed beside the respective thesis links.
+- [x] Display both thesis titles beside their Short CV links, transcribed from the supplied PDFs; remove “Academic homepage” from the footer.
+- [x] Separate thesis links and titles with a colon; remove “Mathematics” beneath the name in the header.
+- [x] Align the name and navigation on the same text baseline in the header on desktop and mobile.
+- [x] Use only “Matthias Irlbeck” as the browser tab title.
+- [x] Implement the combined website audit: larger supporting text/link areas, clickable complete thesis titles with separate supervisor lines, compact mobile portrait/name layout, and removal of the repeated affiliation line. Keep the exact biography and document URLs.
+- [x] Add profile-based Open Graph metadata and an accessible “Copy email” button beside the plain address.
+- [x] Replace the MI favicon with a text-free crop of the supplied PhD cover, showing roughly five prominent cells. Check its appearance at 16, 32, and 64px; preserve the original cover and thesis files.
+- [x] Serve the cover icon directly as `favicon-voronoi-cover.png` under a new filename, so browsers request a fresh icon instead of reusing the cached MI asset. Type/content checks, both builds and all 34 browser checks pass; the restarted local preview serves the exact PNG crop at the new address.
+- [x] At the owner’s request, remove academic profile links; align Email and Office labels with their values and tighten thesis-to-supervisor spacing.
+- [x] Combine each available preprint’s status and arXiv link into one fully clickable “Preprint: arXiv” line. Keep the forthcoming paper’s status and thesis link intact.
+- [x] Give disclosures paper-specific accessible names and nest Markdown subsection headings below paper titles. Hide inactive JavaScript controls and provide direct video links without JavaScript.
+- [x] Generate responsive portrait variants through Astro and a smaller square web video; preserve supplied originals and all document files.
 - [ ] Optional: supply an actual full CV PDF before adding a full-CV link.
-- [ ] Confirm the current Hamburg professional email and office. Both fields are currently null.
+- [x] Owner confirms `matthias.irlbeck@uni-hamburg.de` and room 908 in the Geomatikum. The [University of Hamburg mathematics department](https://www.math.uni-hamburg.de/service/zentral.html) confirms the building address: Bundesstraße 55, 20146 Hamburg (checked 2 October 2026).
+- [x] Display the email as plain text; introduce Contact with “Feel free to reach out to me!” and omit the institution heading and “Professional enquiries”. The earlier “Probability theory” heading above the name is removed at the owner's latest request.
+- [x] Remove research numbering, “Link to entry” controls, and visible draft, approval, and verification notes at the owner's request. Keep content review tasks in this checklist and retain noindex metadata.
+
+## Supplied assets
+
+| Asset | Bytes | Dimensions / details |
+| --- | ---: | --- |
+| `public/images/Matthias_Irlbeck.jpg` | 186,714 | 1280 × 1570; portrait |
+| `public/documents/PhD_thesis_matthias_irlbeck.pdf` | 19,205,810 | 190 pages; *High-Dimensional Poisson–Voronoi Geometry and Threshold Phenomena*; front cover without white bands, blue links preserved |
+| `public/documents/Master thesis Matthias Irlbeck.pdf` | 974,684 | 52 pages; *Intrinsic Arm Exponents in High-Dimensional Percolation* |
+| `source-assets/media/vor_perc_clust.mp4` | 8,055,712 | 1500 × 1500 (1:1), H.264, 24 fps, 20.834 seconds |
+| `public/media/vor_perc_clust-web.mp4` | 3,996,387 | 960 × 960 (1:1), H.264, 24 fps, 20.834 seconds; served web rendition |
+| `public/media/vor_perc_clust-poster.jpg` | 93,782 | 960 × 960; extracted from the video at 1 second |
+| `source-assets/media/Borsuk_animation.mp4` | 9,795,670 | 1080 × 1080 (1:1), H.264/AAC, 30 fps, 30.047 seconds; original |
+| `public/media/borsuk-animation-web.mp4` | 6,843,747 | 960 × 960 (1:1), H.264/AAC, 30 fps, 30.047 seconds; served web rendition |
+| `public/media/borsuk-animation-poster.webp` | 65,102 | 960 × 960; extracted at 5 seconds |
+| `source-assets/media/hyperbolic_poisson_voronoi.mp4` | 14,585,092 | 2000 × 2000 (1:1), H.264, 30 fps, 25 seconds; original |
+| `public/media/hyperbolic-poisson-voronoi-web.mp4` | 2,142,641 | 960 × 960 (1:1), H.264, 30 fps, 25 seconds; served web rendition |
+| `public/media/hyperbolic-poisson-voronoi-poster.webp` | 21,856 | 960 × 960; extracted at 5 seconds |
+| `source-assets/media/0001-0900.mkv` | 14,777,212 | 2400 × 2400 (1:1), H.264, 30 fps, approximately 23.367 seconds; original cell-shape animation |
+| `public/media/typical-voronoi-cell-web.mp4` | 2,594,880 | 960 × 960 (1:1), H.264, 30 fps, 23.367 seconds; served web rendition |
+| `public/media/typical-voronoi-cell-poster.webp` | 38,926 | 960 × 960; extracted at 3 seconds |
+
+Astro generates responsive 96, 192, 288, 408, and 612px WebP portrait variants during builds (approximately 1–28KB each). The original portrait and supplied PDFs retain their existing URLs. The compatibility filename `public/documents/matthias_irlbeck_thesis.pdf` contains the same corrected PhD PDF. Use `PhD_thesis_matthias_irlbeck.pdf` when adding or updating links. The supplied cover image is embedded in that PDF and remains unchanged. All four research entries have a supplied video. No full CV PDF, additional views of a single entry, or research thumbnails have been supplied.
+
+The asset inventory includes locally preserved source videos. The four originals are preserved in ignored `source-assets/media/`, outside `public/`, and are excluded from both local and clean-checkout build artifacts; published research entries use the web renditions and posters. Keep a separate backup of the originals. Required sources and public web assets belong in the local review diff on `review/current-academic-homepage`. The current local version is being committed and pushed for review with owner authorisation. The pre-review working tree and Git state have a verified private backup. Review-branch publication does not merge or deploy the website.
+
+- [x] Integrate the owner's new high-dimensional cell-shape animation: convert the 2400px MKV to a 960px fast-start MP4 (82% smaller), extract a poster, and add it to `typical-voronoi-cell` using the existing player.
+- [x] Use the owner's cell-shape caption: “All cells that intersect a fixed ball are shown here.”
+- [ ] Confirm the cell-shape visualization's exact dimension, projection, remaining parameters and colour meanings before adding further specifics.
+- [x] Apply the owner's result-box and wording changes: introduce the three shape limits with “Among other geometric properties, we prove that”, arrange them in one row when the text column has enough space and otherwise stack them, remove the specified sentences, and link Kahle and Martinez-Figueroa to their arXiv paper.
+
+## Website audit implementation — 3 October 2026
+
+- [x] Put the main result before the illustration in mobile/HTML reading order while retaining the desktop text/figure split.
+- [x] Remove the typical-cell missing-video notice and the redundant instruction beside Play video.
+- [x] Make animations discoverable in disclosure labels; standardise Close details, arXiv, and Copy email; strengthen summary contrast and tighten collapsed spacing.
+- [x] Restore a mobile sticky close control to view after collapse when needed, without repositioning ordinary visible closing.
+- [x] Honour an explicit browser data-saving preference with a poster and manual Play; retain requested autoplay otherwise.
+- [x] Add print styles with dark text, compact figures, paper URLs, hidden controls, preserved disclosure choices, and CV rows kept together.
+- [x] Move source MP4s outside public into ignored source-assets/media; verify originals, web videos and posters remain byte-for-byte unchanged; update inventory and regeneration commands.
 
 ## Review and launch
 
+- [x] Validate the subsequent Euclidean/hyperbolic caption and Grebík–Recke link edits: zero type/content diagnostics, both builds pass, and all 28 targeted Chromium/Firefox checks pass across both deployment paths. Confirm caption wording, d=3 MathML, arXiv destination and sentence removal in the browser; inspect both affected desktop/mobile entries; restore the default build. See REVIEW_NOTES.md.
+
+- [x] Validate the latest owner wording/result layout/caption changes: zero type/content diagnostics, both builds pass, and all 144 Chromium/Firefox checks pass across `/website/` and `/`. Inspect the biography and both affected entries on desktop/mobile, confirm the 200% desktop-text result stack fits, inspect the current shape/Borsuk A4 pages, and restore the default build. See REVIEW_NOTES.md for artifact paths.
+
+- [x] Validate the third adversarial project-details audit: zero type/content diagnostics, both builds pass, complete project/root suites pass 70 checks each, and all eight affected project content/layout checks pass again after the final proof-wording clarification. Inspect every expanded entry at desktop/mobile widths and revised Borsuk/hyperbolic print pages; preserve thesis/media hashes; restore the default build. Exact results and artifact paths are in REVIEW_NOTES.md.
+
+- [x] Validate the second careful project-details audit: zero type/content diagnostics; both builds pass; all 140 Chromium/Firefox checks pass across `/website/` and `/`, including every equation at 320–1440px and 200% text. Inspect all four individual entries on desktop/mobile; preserve media and thesis hashes; restore the default project build. Exact source references and remaining author-review issues are in CONTENT_NOTES.md.
+
+- [x] Validate the latest presentation edits: zero type/content diagnostics, both builds pass, all 140 Chromium/Firefox checks pass across both paths, equal open/closed disclosure dimensions measured for every entry on desktop/mobile, and collapsed/expanded screenshots inspected. Restore the `/website/` build. See REVIEW_NOTES.md.
+
+- [x] Validate the new typical-cell shape video: zero type/content diagnostics, both builds pass, all affected 16 Chromium/Firefox desktop/mobile video checks pass after correcting an offscreen-scroll assumption, and the full root-path suite passes 70 checks. Inspect expanded desktop/mobile screenshots, verify all 701 frames and 30 fps retained, fast-start metadata, byte-for-byte original preservation, and exclusion of the MKV from build output. Restore the `/website/` build. See REVIEW_NOTES.md for the first run and corrected verification.
+
+- [x] Validate the completed 3 October website audit: type/content checks report zero errors, warnings and hints; both builds pass; all 132 distinct Chromium/Firefox checks pass across both paths (33 per engine/path). The first project run's sole failure was a Firefox CSS serialization assumption in the print test; verify actual rendered URLs, correct the assertion, and pass the print test in both engines. Then pass the clean 66-check root run and restore the project build. Inspect desktop/mobile and print output; A4 exports are two pages collapsed and five expanded. Verify all nine video/poster hashes and exclusion of originals from the build. See REVIEW_NOTES.md.
+
+- [x] Validate the 3 October research-copy revision: type/content checks and both static builds pass; all 104 distinct Chromium/Firefox checks pass across both base paths, including the corrected superscript-position/size regression and internal equation-width checks at 320–1440px. The first Firefox layout assertion used glyph heights from different fonts; compare computed font sizes instead, then rerun that check successfully in both engines. Capture all four expanded entries at 390px and 1440px and inspect desktop/mobile screenshots. Full details are in REVIEW_NOTES.md.
 - [ ] Owner reviews desktop and mobile layouts and expanded research entries.
-- [ ] Once real assets exist, test their links, dimensions, video playback, clip switching, pause on close, delayed requests, and failure fallbacks on desktop and mobile.
+- [x] Validate the current audit revision on 2 October 2026: `npm run check` reported zero errors, warnings or hints; both static builds passed; and all 104 Chromium/Firefox browser checks passed (26 per engine per base path). Checks cover mobile header reflow with 200% text simulation, the sticky native summary, clipboard focus on success/denial, expanded posters without MP4 requests, year/PDF-size metadata, the PDF page fragment, and Markdown path/anchor handling. Representative desktop/mobile expanded screenshots and the 200% viewport capture were inspected. The default `/website/` build was restored and the existing 4321 preview responded with HTTP 200.
+- [x] Install and execute Chromium, Firefox and WebKit separately. Chromium/Firefox passed both deployment paths. WebKit's project-path result was 19 passed and seven media failures; CI uses the validated Chromium/Firefox pair, while WebKit remains selectable. Installation and a successful WebKit engine smoke test are not reported as full website validation.
+- [x] Exercise the real local Astro fixture for multiple clips and missing media in Chromium/Firefox, including keyboard choice, caption updates, stopping the previous clip, retrying and no-JavaScript fallback. Keep the fixture and screenshots outside public site output. Clipboard success used the real Chromium API; denial was simulated, and Firefox/WebKit success/denial used API mocks. Those mocks establish feedback/focus behaviour, not actual clipboard permissions in those engines.
+- [ ] Resolve or verify the local WebKit media limitation before claiming Safari compatibility. Six seek-near-end loop checks and one multiple-clip pause check failed on Linux Mint/GStreamer. A plain native video without the controller reproduced the seek stall; a temporary no-B-frame encoding increased size by about 40% and did not fix it. Original and web assets remain unchanged. A subsequent 50-second plain-native WebKit trial completed two automatic loops during natural playback; the six scripted near-end seek failures and fixture pause timeout remain unresolved. Native Safari/iOS have not been tested.
+- [ ] Optional accessibility review with an actual screen reader. Chromium accessibility-tree and MathML checks were performed during the audit, but spoken mathematics has not been verified with NVDA or VoiceOver.
+- [x] After the further details revision on 2 October 2026, type/content checks and both static builds passed, with all 36 browser checks passing (18 per base path). Checks include all expanded entries together at 320, 390, 768, 1024, and 1440px; HTML reading order; unique IDs; rendered mathematics; rapid-pause regressions; keyboard/no-JavaScript controls; and actual playback and looping of all three videos. Desktop/mobile expanded screenshots were inspected, and browser measurements confirm all five display equations fit without horizontal scrolling at 320px. The existing development preview remains available while tests use a separate loopback port. The default `/website/` build is restored after root-path testing.
+- [x] After the research-text and cover-favicon update on 2 October 2026, type/content checks, both base-path builds, and all 34 browser checks passed. All four expanded entries were captured and inspected at desktop and mobile sizes, with no KaTeX errors or page overflow at 1440, 390, or 320px. The embedded favicon decodes correctly in Chromium; its crop was inspected at 16, 32, and 64px. Hashes confirm both thesis files, the compatibility PhD filename, and the original cover are unchanged. The local development server is restored at `http://127.0.0.1:4321/website/`, listening only on 127.0.0.1.
+- [x] After integrating both new videos and updating the controls on 2 October 2026, type/content checks and both builds passed, along with all 34 browser checks (17 each for `/website/` and `/`). Checks cover all three videos on desktop/mobile: delayed requests, actual playback/looping, pause on close or scrolling, and persistent manual pauses. Keyboard and no-JavaScript tests cover both top disclosure labels; all three no-JavaScript video links respond correctly. Clipboard, document URLs, metadata, reduced motion, retry, simulated tab visibility, and eight viewport widths also pass. Desktop/mobile expanded screenshots and video frames were inspected. Email/button alignment was measured at 1440, 390, and 320px. Hash checks confirmed supplied originals/PDFs unchanged, and the Borsuk AAC track was preserved exactly. Clip switching within one entry remains to be checked if additional views are supplied.
 - [ ] Enable repository Settings → Pages → Source: GitHub Actions.
 - [ ] Review and merge the implementation PR; check the deploy workflow result and Pages “Visit site”.
 - [ ] Run the optional live smoke check from README after Pages deployment.
-- [ ] Approve all academic content before any domain migration or removal of Draft/noindex.
-- [ ] In a separate explicitly authorized launch, choose the canonical domain, change only relevant Pages/DNS records, preserve mail/verification records, verify HTTPS/assets, and deliberately remove draft/noindex.
+- [ ] Approve all academic content before any domain migration or removal of noindex.
+- [ ] In a separate explicitly authorized launch, choose the canonical domain, change only relevant Pages/DNS records, preserve mail/verification records, verify HTTPS/assets, and deliberately remove noindex.
 
-No portrait, video, poster, thumbnail, thesis, or full CV file has been supplied. Real media playback and thesis-document rendering cannot yet be verified. The current Google Sites website and Porkbun DNS are unchanged.
+The current Google Sites website and Porkbun DNS are unchanged. Remaining content review tasks are recorded here rather than displayed on the homepage.

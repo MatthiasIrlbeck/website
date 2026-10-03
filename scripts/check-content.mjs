@@ -28,8 +28,17 @@ for (const file of readdirSync('src/content/research').filter(f => f.endsWith('.
   orders.add(order);
   assert(!/href=["']#['"]/.test(text), `Fake link in ${file}`);
   assert(!/youtube\.com\/embed|youtu\.be/.test(text), `YouTube embed/link in ${file}`);
-  // Check local source/poster/thumbnail URLs without fetching external assets.
-  for (const match of text.matchAll(/^\s*(?:src|poster):\s*["']?(\/[^\s"']+)/gm)) checkAsset(match[1]);
+  assert.deepEqual(
+    [...text.matchAll(/^#### (.+)$/gm)].map(match => match[1]),
+    ['Model', 'Main result', 'Interpretation'],
+    `Use the Model, Main result, and Interpretation h4 sections in ${file}`,
+  );
+  // Check local media and document URLs without fetching external assets.
+  for (const match of text.matchAll(/^\s*(?:src|poster|url):\s*(?:"([^"]+)"|'([^']+)'|(\/\S+))\s*$/gm)) {
+    const url = match[1] ?? match[2] ?? match[3];
+    if (url.startsWith('/')) checkAsset(url);
+  }
+  for (const match of text.matchAll(/\]\((\/[^)]*)\)/g)) checkAsset(match[1].split('#')[0]);
 }
 assert(orders.size > 0, 'No research entries');
 console.log(`Content checks passed: ${orders.size} research entries, biography, CV/thesis fields, contact, and supplied local assets.`);

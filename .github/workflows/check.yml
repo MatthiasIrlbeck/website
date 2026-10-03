@@ -16,6 +16,7 @@ jobs:
       DRAFT_SITE: 'true'
       SITE_URL: https://matthiasirlbeck.github.io
       ASTRO_TELEMETRY_DISABLED: '1'
+      PLAYWRIGHT_BROWSERS: chromium,firefox
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -25,7 +26,9 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm run build
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium firefox
+      # Firefox needs system H.264 codecs beyond Playwright's browser dependencies.
+      - run: sudo apt-get install --yes ffmpeg
       - run: npm run test:browser
       - uses: actions/upload-artifact@v7
         if: always()
