@@ -1,5 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import ResearchEntry from '../components/ResearchEntry.astro';
 import { profile } from '../data/profile';
 import { cv } from '../data/cv';
@@ -8,56 +10,88 @@ import { assetUrl, homeUrl, isDraft, siteUrl } from '../lib/site';
 import 'katex/dist/katex.min.css';
 import '../styles/global.css';
 const research = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
+const portraits = import.meta.glob<{ default: ImageMetadata }>('/public/images/*.{jpg,jpeg,png,webp,avif}', { eager: true });
+const portrait = profile.portrait && portraits[`/public${profile.portrait.src}`]?.default;
+const description = 'Matthias Irlbeck · Probability, percolation, random graphs, and stochastic geometry.';
+const canonicalUrl = new URL(homeUrl, siteUrl);
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{profile.name} — Mathematics</title>
-    <meta name="description" content="Matthias Irlbeck · Probability, percolation, random graphs, and stochastic geometry." />
+    <title>{profile.name}</title>
+    <meta name="description" content={description} />
     {isDraft && <meta name="robots" content="noindex, nofollow" />}
-    <link rel="canonical" href={new URL(homeUrl, siteUrl)} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" href={assetUrl('/favicon-voronoi-cover.png')} type="image/png" sizes="64x64" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={profile.name} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    {profile.portrait && <>
+      <meta property="og:image" content={new URL(assetUrl(profile.portrait.src), siteUrl)} />
+      <meta property="og:image:alt" content={profile.portrait.alt} />
+      <meta property="og:image:width" content={String(profile.portrait.width)} />
+      <meta property="og:image:height" content={String(profile.portrait.height)} />
+    </>}
     <meta name="theme-color" content="#202321" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="site-shell">
       <header class="site-header">
-        <a href={homeUrl} class="wordmark">Matthias Irlbeck<span>Mathematics</span></a>
+        <a href={homeUrl} class="wordmark">Matthias Irlbeck</a>
         <nav aria-label="Main navigation"><a href="#research">Research</a><a href="#cv">CV</a><a href="#contact">Contact</a></nav>
       </header>
-      {isDraft && <aside class="draft-banner"><span class="draft-pill">Draft</span><p>Review version · content and media awaiting approval.</p></aside>}
       <main id="main">
         <section class="profile" aria-labelledby="profile-name">
           <div class="portrait">
-            {profile.portrait ? <img src={assetUrl(profile.portrait.src)} alt={profile.portrait.alt} width={profile.portrait.width} height={profile.portrait.height} /> : <div class="portrait-placeholder"><span aria-hidden="true">MI</span><p>Portrait to be added</p></div>}
+            {profile.portrait ? (portrait ? <Image src={portrait} alt={profile.portrait.alt} widths={[96, 192, 288, 408, 612]} sizes="(max-width: 560px) 88px, (max-width: 800px) 150px, 204px" width={612} height={Math.round(612 * profile.portrait.height / profile.portrait.width)} format="webp" quality={85} loading="eager" fetchpriority="high" /> : <img src={assetUrl(profile.portrait.src)} alt={profile.portrait.alt} width={profile.portrait.width} height={profile.portrait.height} />) : <div class="portrait-placeholder"><span aria-hidden="true">MI</span><p>Portrait unavailable</p></div>}
           </div>
           <div class="profile-copy">
-            <p class="eyebrow">Probability &amp; stochastic geometry</p>
             <h1 id="profile-name">Matthias Irlbeck</h1>
-            <p class="affiliation">{profile.role} <span>· {profile.institution}</span></p>
-            <p class="biography">{profile.biography.join(' ')}</p>
-            {isDraft && profile.biographyNeedsReview && <p class="review-note">Biography wording awaiting approval</p>}
           </div>
+          <p class="biography">{profile.biography.join(' ')}</p>
         </section>
         <section id="research" class="main-section" aria-labelledby="research-title">
-          <div class="section-heading"><h2 id="research-title">Research</h2><p>Selected papers &amp; work in progress</p></div>
+          <div class="section-heading"><h2 id="research-title">Research</h2></div>
           {research.map(entry => <ResearchEntry entry={entry} />)}
         </section>
         <section id="cv" class="main-section" aria-labelledby="cv-title">
-          <div class="section-heading"><h2 id="cv-title">Short CV</h2><p>Appointments &amp; education</p></div>
+          <div class="section-heading"><h2 id="cv-title">Short CV</h2></div>
           <ol class="cv-list">
-            {cv.map(row => <li class="cv-row"><p class:list={['cv-dates', { 'missing-label': row.datesNeedReview }]}>{row.dates}</p><div><h3>{row.title}</h3><p>{row.institution}</p>{row.thesis && (row.thesis.url ? <a class="thesis-link" href={assetUrl(row.thesis.url)}>{row.thesis.label}</a> : <p class="thesis-placeholder">{row.thesis.label} <span>PDF or public link to be added</span></p>)}</div></li>)}
+            {cv.map(row => (
+              <li class="cv-row">
+                <p class:list={['cv-dates', { 'missing-label': row.datesNeedReview }]}>{row.dates}</p>
+                <div>
+                  <h3>{row.title}</h3>
+                  <p>{row.institution}</p>
+                  {row.thesis && <div class="thesis-details">
+                    <span class="thesis-document">
+                      {row.thesis.url ? <a class="thesis-link" href={assetUrl(row.thesis.url)} target="_blank" rel="noopener noreferrer">{row.thesis.label}{row.thesis.title && <>: {row.thesis.title}</>}</a> : <span class="thesis-placeholder">{row.thesis.label}{row.thesis.title && <>: {row.thesis.title}</>} <span>PDF unavailable</span></span>}
+                    </span>
+                    {row.thesis.supervisor && <span class="thesis-supervisor">Supervisor: {row.thesis.supervisor}</span>}
+                  </div>}
+                </div>
+              </li>
+            ))}
           </ol>
         </section>
         <section id="contact" class="main-section contact-section" aria-labelledby="contact-title">
-          <div class="section-heading"><h2 id="contact-title">Contact</h2><p>Professional enquiries</p></div>
-          <div class="contact-content"><p class="contact-institution">{contact.institution}</p><dl><div><dt>Email</dt><dd>{contact.email ? <a href={`mailto:${contact.email}`}>{contact.email}</a> : <span class="missing-label">Professional email to be confirmed</span>}</dd></div><div><dt>Office</dt><dd>{contact.office ?? <span class="missing-label">Office details to be confirmed</span>}</dd></div></dl></div>
+          <div class="section-heading"><h2 id="contact-title">Contact</h2></div>
+          <div class="contact-content">
+            <p class="contact-intro">{contact.intro}</p>
+            <dl>
+              <div><dt>Email</dt><dd class="email-details"><span data-email-address>{contact.email ?? <span class="missing-label">Email unavailable</span>}</span>{contact.email && <><button type="button" class="copy-email" data-copy-email data-email={contact.email} hidden>Copy email</button><span class="copy-status" role="status" data-copy-status></span></>}</dd></div>
+              <div><dt>Office</dt><dd>{contact.office ?? <span class="missing-label">Office details unavailable</span>}{contact.address && <><br />{contact.address}</>}</dd></div>
+            </dl>
+          </div>
         </section>
       </main>
-      <footer><span>{profile.name}</span><span>{isDraft ? 'Draft for review' : 'Academic homepage'}</span><a href="#profile-name">Back to top ↑</a></footer>
+      <footer><span>{profile.name}</span><a href="#profile-name">Back to top ↑</a></footer>
     </div>
     <script src="../lib/research.ts"></script>
+    <script src="../lib/contact.ts"></script>
   </body>
 </html>

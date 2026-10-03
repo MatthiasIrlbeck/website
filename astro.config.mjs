@@ -3,6 +3,7 @@ import { unified } from '@astrojs/markdown-remark';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import { siteUrl, basePath } from './src/lib/site.ts';
+import { contentLinks } from './src/lib/markdown.ts';
 
 export default defineConfig({
   site: siteUrl,
@@ -10,8 +11,8 @@ export default defineConfig({
   output: 'static',
   markdown: {
     processor: unified({
-    remarkPlugins: [remarkMath],
-    rehypePlugins: [[rehypeKatex, { output: 'htmlAndMathml', strict: 'error', throwOnError: true }]],
+      remarkPlugins: [remarkMath],
+      rehypePlugins: [[rehypeKatex, { output: 'htmlAndMathml', strict: 'error', throwOnError: true }], contentLinks],
     }),
   },
 });

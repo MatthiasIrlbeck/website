@@ -7,3 +7,5 @@ dist/
 test-results/
 playwright-report/
 artifacts/
+# Owner-supplied original videos stay outside public; deploy optimized web copies.
+/source-assets/media/
