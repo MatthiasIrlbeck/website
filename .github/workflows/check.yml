@@ -7,14 +7,27 @@ permissions:
   contents: read
 jobs:
   check:
+    name: check (${{ matrix.target }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        base: ['/website', '/']
+        include:
+          - target: /website
+            base: /website
+            site: https://matthiasirlbeck.github.io
+            draft: 'true'
+          - target: /
+            base: /
+            site: https://matthiasirlbeck.github.io
+            draft: 'true'
+          - target: production
+            base: /
+            site: https://www.matthiasirlbeck.com
+            draft: 'false'
     env:
       BASE_PATH: ${{ matrix.base }}
-      DRAFT_SITE: 'true'
-      SITE_URL: https://matthiasirlbeck.github.io
+      DRAFT_SITE: ${{ matrix.draft }}
+      SITE_URL: ${{ matrix.site }}
       ASTRO_TELEMETRY_DISABLED: '1'
       PLAYWRIGHT_BROWSERS: chromium,firefox
     steps:
@@ -33,7 +46,7 @@ jobs:
       - uses: actions/upload-artifact@v7
         if: always()
         with:
-          name: review-${{ strategy.job-index }}
+          name: screenshots-${{ strategy.job-index }}
           path: |
             artifacts/screenshots/
             playwright-report/

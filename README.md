@@ -1,6 +1,6 @@
 # Matthias Irlbeck — academic website
 
-A portable static Astro review site. The single homepage contains biography/portrait, Research, Short CV, and Contact, in that order. Research uses native disclosures and build-time KaTeX HTML/MathML. No framework runtime, remote fonts, math CDN, YouTube embed, contact form, or separate Animations route is used.
+A portable static Astro website prepared for `https://www.matthiasirlbeck.com/`. The single homepage contains biography/portrait, Research, Short CV, and Contact, in that order. Research uses native disclosures and build-time KaTeX HTML/MathML. No framework runtime, remote fonts, math CDN, YouTube embed, contact form, or separate Animations route is used.
 
 The supplied portrait, four research videos/posters, and both thesis PDFs are integrated. Each research entry has a supplied clip; missing optional assets remain intentional states. Review wording and academic metadata before launch; see [CONTENT_TODO.md](CONTENT_TODO.md). Review flags remain internal and the homepage shows no Draft notice. Noindex is not access control: the repository and a deployed review site are public.
 
@@ -35,13 +35,13 @@ Astro 7 can automatically background servers when run by an agent. Stop servers 
 
 ## Build configuration
 
-`src/lib/site.ts` is the single source of defaults and local asset URL handling. Set build-time variables in the shell or CI; `.env.example` documents the names. No production credentials are required.
+`src/lib/site.ts` supplies draft defaults and local asset URL handling; `astro.config.mjs` consumes its site/base values. `.github/workflows/deploy.yml` explicitly sets all three production variables for the check/build/upload job, so deployed output does not depend on a developer's local defaults. Set the same variables in the shell for a production build and preview; `.env.example` documents both profiles. No production credentials are required.
 
-| Variable | Review default | Purpose |
-| --- | --- | --- |
-| `SITE_URL` | `https://matthiasirlbeck.github.io` | Canonical site origin |
-| `BASE_PATH` | `/website` | Project-site prefix; use `/` for a domain-root build |
-| `DRAFT_SITE` | `true` | Noindex metadata |
+| Variable | Local draft default | Production deployment | Purpose |
+| --- | --- | --- | --- |
+| `SITE_URL` | `https://matthiasirlbeck.github.io` | `https://www.matthiasirlbeck.com` | Canonical and Open Graph origin |
+| `BASE_PATH` | `/website` | `/` | Asset, document and homepage URL prefix |
+| `DRAFT_SITE` | `true` | `false` | Drafts include noindex/nofollow; production omits that restriction |
 
 ```sh
 # Project-path build and tests
@@ -56,7 +56,31 @@ npm run test:paths
 npm run build
 ```
 
-The base variable must agree between build and preview/tests. Root-path testing does not change any live domain or remove noindex. Keep `DRAFT_SITE=true` until an explicitly approved launch.
+The variables must agree between build and preview/tests. The commands above use draft defaults; unset any production shell exports before returning to them. Root-path draft testing does not change a live domain. The owner has explicitly authorized preparing production output in a separate launch PR; merging and the manual Pages/DNS cutover remain outstanding.
+
+### Production build and local preview
+
+From the repository directory, use Node 24 and the locked dependencies, then:
+
+```sh
+export SITE_URL=https://www.matthiasirlbeck.com
+export BASE_PATH=/
+export DRAFT_SITE=false
+npm run check
+npm run build
+PLAYWRIGHT_BROWSERS=chromium,firefox PLAYWRIGHT_PORT=4335 npm run test:browser
+npm run preview -- --ignore-lock --host 127.0.0.1 --port 4335
+```
+
+Open **http://127.0.0.1:4335/**. This serves the built `dist/` output at the domain root, with production metadata, without publishing it. Stop the foreground preview with Ctrl+C. The build emits `https://www.matthiasirlbeck.com/` as the canonical/Open Graph URL and root asset/document URLs without `/website`. Research permalinks retain their existing `/#entry-id` and subsection fragments. Production has no robots meta restriction; there is currently no sitemap, `robots.txt`, CNAME, or custom response-header file in the source. Verify actual hosting response headers after the owner-managed cutover.
+
+To resume the ordinary local draft workflow in the same shell:
+
+```sh
+unset SITE_URL BASE_PATH DRAFT_SITE
+npm run build
+npm run dev -- --host 127.0.0.1 --port 4321
+```
 
 ## Browser checks and screenshots
 
@@ -67,9 +91,11 @@ sudo apt-get install --yes ffmpeg
 PLAYWRIGHT_BROWSERS=chromium,firefox PLAYWRIGHT_PORT=4323 npm run test:paths
 ```
 
-Tests default to Chromium; `PLAYWRIGHT_BROWSERS` selects any combination of `chromium`, `firefox` and `webkit`. CI runs the Chromium/Firefox pair for both base paths. All browsers use the binaries installed for the pinned Playwright version; `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` explicitly overrides Chromium when needed. System Chromium is never selected automatically, because its version and codec support can differ from the tested browser. Linux Firefox also needs the system H.264 decoder supplied by FFmpeg; Playwright's browser dependency installation does not install it. CI installs FFmpeg before playback checks. This computer's prepared environment supplies the downloaded browser cache and already has FFmpeg. To investigate WebKit separately, install it with `npx playwright install --with-deps webkit` and select `PLAYWRIGHT_BROWSERS=webkit`; the local media limitation below remains unresolved.
+Tests default to Chromium; `PLAYWRIGHT_BROWSERS` selects any combination of `chromium`, `firefox` and `webkit`. CI runs the Chromium/Firefox pair for draft project, draft root and production root configurations. Deployment checks cover canonical/Open Graph URLs, crawler restrictions and HEAD requests for every rendered local asset/link, including responsive image variants, PDFs, deferred videos/posters, CSS and scripts. All browsers use the binaries installed for the pinned Playwright version; `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` explicitly overrides Chromium when needed. System Chromium is never selected automatically, because its version and codec support can differ from the tested browser. Linux Firefox also needs the system H.264 decoder supplied by FFmpeg; Playwright's browser dependency installation does not install it. CI installs FFmpeg before playback checks. This computer's prepared environment supplies the downloaded browser cache and already has FFmpeg. To investigate WebKit separately, install it with `npx playwright install --with-deps webkit` and select `PLAYWRIGHT_BROWSERS=webkit`; the local media limitation below remains unresolved.
 
 Tests serve the built website on `PLAYWRIGHT_PORT` and a real local Astro media fixture on the next port. Override the fixture with `PLAYWRIGHT_FIXTURE_PORT` when necessary. Use free ports, such as 4323/4324, to keep an existing 4321 development preview available. The fixture is excluded from the published website.
+
+Current launch validation and preview details are recorded in [REVIEW_NOTES.md](REVIEW_NOTES.md). The following paragraphs retain results from earlier content/layout audits; their draft-build restoration statements describe those earlier runs.
 
 The layout/architecture audit on 3 October 2026 keeps all website content unchanged. Type/content checks report zero errors, warnings and hints; both static builds pass; all **144 Chromium/Firefox checks** pass: 36 per engine for each of `/website/` and `/`. Coverage now measures publication spacing and link targets across eleven viewport widths, research layout around the 960px breakpoint, and contact separation/alignment with enlarged text. Desktop/mobile screenshots of every expanded entry, narrow Contact views and A4 print exports were inspected and saved in `artifacts/layout-audit/`. Print exports remain two pages collapsed and five fully expanded. The default project build is restored; see [REVIEW_NOTES.md](REVIEW_NOTES.md) for the exact changes and remaining limits.
 
@@ -77,7 +103,7 @@ Coverage checks visible focus after sticky closing, no scroll change when the cl
 
 Coverage includes keyboard disclosures and paper links, entry/subsection fragments, multiple open entries, no-JavaScript content, MathML/local fonts, eight ordinary viewport widths from 320–1440px, 200% text simulation, visible focus after sticky mobile closing, printing with selected disclosures, explicit data-saving preferences, posters without early MP4 requests, absence of project years and PDF size labels, PDF page fragments, supplied documents, retry handling, and the real multiple-clip/absent-media fixture. Video checks passed in Chromium/Firefox for visible muted playback, looping after seeking near the end, manual pauses, closing/scrolled-away entries, reduced motion and simulated background-tab events. Clipboard success used the real Chromium API; denial was simulated. Firefox and WebKit exercise clipboard success/denial with API mocks, which tests feedback and focus but does not verify their actual clipboard permissions. Research loops discover entries; dedicated metadata assertions intentionally check the current confirmed values and must be updated when those values change.
 
-Final individual-entry screenshots and print PDFs are in `artifacts/screenshots/website-improvements/`. Suite screenshots are stored under `artifacts/screenshots/project/<browser>/` and `artifacts/screenshots/root/<browser>/`: collapsed, representative expanded, all-expanded and video views. `mobile-200-percent-text.png` is a viewport capture. These directories, reports and traces are ignored and never published; PR checks retain Actions artifacts for 14 days. The text enlargement check doubles the root font size; it is not a native browser-zoom or screen-reader test. Actual NVDA/VoiceOver speech, native Safari and iOS have not been tested.
+Final individual-entry screenshots and print PDFs are in `artifacts/screenshots/website-improvements/`. Suite screenshots are stored under `artifacts/screenshots/project/<browser>/`, `artifacts/screenshots/root/<browser>/` and `artifacts/screenshots/production/<browser>/`: collapsed, representative expanded, all-expanded and video views. `mobile-200-percent-text.png` is a viewport capture. These directories, reports and traces are ignored and never published; PR checks retain Actions artifacts for 14 days. The text enlargement check doubles the root font size; it is not a native browser-zoom or screen-reader test. Actual NVDA/VoiceOver speech, native Safari and iOS have not been tested.
 
 **WebKit remains a separate compatibility check.** On this Linux Mint/GStreamer setup, 19 of 26 project-path checks passed; seven media checks failed: six seek-near-end loop checks and one multiple-clip pause timeout. A plain native video without the website controller reproduced the seek stall. A temporary H.264 rendition without B-frames was about 40% larger and did not fix it; all supplied originals and served web assets remain unchanged. A subsequent 50-second trial with a plain native WebKit video completed two automatic loops during natural playback. The six scripted near-end seek failures and the fixture pause timeout remain unresolved; native Safari/iOS have not been tested.
 
@@ -160,32 +186,49 @@ All four supplied original videos are preserved byte-for-byte in `source-assets/
 
 ## GitHub review and deployment
 
-The current implementation branch is `review/current-academic-homepage`. Required website sources, portrait, documents, web video renditions and posters belong in the review diff; the four original videos stay local and are ignored. Confirm the branch and inspect `git status` plus `git diff --cached --stat` before submitting it. The owner has authorised committing and pushing this current version for review. Create a concise PR description covering the final behaviour and validation; REVIEW_NOTES.md is the supporting audit history. Review-branch pushes and PRs run checks without deploying the site. To publish later review updates:
+PR #3 has been merged into `main`. The separate `launch/production-domain` branch prepares the production configuration for review. Its PR must remain unmerged until the owner is ready for the cutover. Branch pushes and pull requests run **Check website** for draft `/website`, draft `/` and production `/`; they do not deploy. REVIEW_NOTES.md records validation and CONTENT_TODO.md retains unresolved content and launch work.
+
+The **Deploy website to GitHub Pages** workflow builds/checks/uploads `dist` with the explicit production values above. Only its deploy job receives Pages-write/OIDC permissions, and that job runs only for `main`. It also supports manual dispatch from `main`. Merging this launch PR will trigger that workflow, so coordinate the merge with the owner-managed Pages/DNS cutover. No custom-domain setting, DNS record, CNAME file or existing Google Sites page is changed by this PR.
+
+The owner will manually confirm GitHub Pages uses GitHub Actions, set its custom domain to `www.matthiasirlbeck.com`, and update the relevant Porkbun DNS records. Preserve unrelated mail and verification records. After the cutover, inspect the deployment result, HTTPS, the canonical `www` host and redirects from any alternate host, then verify assets, thesis links, research fragments and crawler response headers at `https://www.matthiasirlbeck.com/`.
+
+An optional smoke check after the actual cutover:
 
 ```sh
-git push -u origin review/current-academic-homepage
-gh pr create --base main --head review/current-academic-homepage \
-  --title "Improve academic homepage content, media and accessibility" \
-  --body-file REVIEW_NOTES.md
+curl --fail --silent --show-error --dump-header /tmp/website-live-headers.txt \
+  https://www.matthiasirlbeck.com/ -o /tmp/website-live.html
+node --input-type=module <<'JS'
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+const html = readFileSync('/tmp/website-live.html', 'utf8');
+const headers = readFileSync('/tmp/website-live-headers.txt', 'utf8');
+assert(html.includes('Matthias Irlbeck'));
+assert(/<link[^>]*rel="canonical"[^>]*href="https:\/\/www\.matthiasirlbeck\.com\/"/.test(html));
+assert(!/noindex|noarchive|nofollow/i.test(html));
+assert(!/^x-robots-tag:.*(?:noindex|noarchive|nofollow|none)/im.test(headers));
+console.log('Homepage and indexing smoke check passed; also inspect links and media in a browser.');
+JS
 ```
 
-Alternatively, after pushing, use GitHub's **Compare & pull request** for this branch and use a description covering the resulting behaviour, current validation and unresolved content. REVIEW_NOTES.md records the completed checks and unresolved WebKit media results; update it if the reviewed implementation or validation changes. A PR is reviewable source; it is not a Pages preview. Do not merge without owner authorization.
+Test the live site on desktop and a phone, including native Safari/iOS playback, before claiming full browser compatibility. The local preview verifies the built files; it cannot verify future DNS, HTTPS or GitHub/custom-domain headers.
 
-1. GitHub Pages is already configured with **Source: GitHub Actions**, `/website/`, and no custom domain. Keep these settings unchanged for this review.
-2. Review the PR and the **Check website** Actions run. It builds and tests `/website` and `/`; it cannot deploy PR code.
-3. Owner: merge the approved PR into `main`. The separate **Deploy draft to GitHub Pages** workflow builds/checks/uploads `dist` and deploys only `main`. It also supports manual dispatch from `main`.
-4. Check the workflow's successful deployment and **Settings → Pages → Visit site**. The expected URL is `https://matthiasirlbeck.github.io/website/`; it is not claimed live before successful deployment.
-5. Optional live smoke check after deployment:
+## Continuing local edits
+
+Start from a clean working tree. Preserve any uncommitted work before switching branches; keep original videos backed up separately because Git does not track them.
 
 ```sh
-curl --fail --silent --show-error https://matthiasirlbeck.github.io/website/ -o /tmp/website-live.html
-node -e 'const s=require("node:fs").readFileSync("/tmp/website-live.html","utf8"); if(!s.includes("Matthias Irlbeck") || !s.includes("noindex")) process.exit(1)'
+git status --short
+git switch main
+git pull --ff-only origin main
+git switch -c edit/short-description
+# Make the content or CSS changes described above, then:
+npm run check
+npm run build
+PLAYWRIGHT_BROWSERS=chromium,firefox PLAYWRIGHT_PORT=4335 npm run test:browser
+git diff --check
+git diff
 ```
 
-Test the deployed site on your phone and desktop too. Actions versions follow the current official Astro/GitHub Pages guidance, inspected from the Astro documentation source on 1 October 2026. Deployment uses explicit `npm ci` and only the deploy job receives Pages-write/OIDC permissions; CI has read-only repository access.
-
-## Later production-domain switch — separate approval required
-
-After content approval, choose canonical `www` or bare domain, change `SITE_URL`/`BASE_PATH` and Pages custom-domain settings, then change only the necessary DNS records with explicit authorization. Preserve unrelated mail and verification records, verify HTTPS and asset/link resolution, and deliberately disable Draft/noindex. This implementation does not add a CNAME, configure Porkbun, migrate the domain, or replace the current Google Sites website.
+Use the default `/website/` draft preview during editing. Also rebuild/test with the production exports above before submitting updates that affect URLs, metadata or layout. Inspect desktop/mobile screenshots and expanded research entries. Stage only intended files (`git add -p` is useful for text changes), commit, push the edit branch, and open a PR targeting `main`. The owner reviews and merges it; the main-only workflow then republishes the production build. Do not commit dependencies, generated builds, browser caches, local environment files or source-video originals.
 
 No blanket license is applied to papers, theses, portrait, or video. Dependency distributions retain their license notices in node_modules; the redistributed KaTeX CSS/fonts are accompanied by their MIT notice in `public/licenses/katex.txt`.
