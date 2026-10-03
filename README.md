@@ -62,10 +62,12 @@ The base variable must agree between build and preview/tests. Root-path testing 
 
 ```sh
 npx playwright install --with-deps chromium firefox
+# On Ubuntu/Debian, install the system H.264 decoder used by Firefox:
+sudo apt-get install --yes ffmpeg
 PLAYWRIGHT_BROWSERS=chromium,firefox PLAYWRIGHT_PORT=4323 npm run test:paths
 ```
 
-Tests default to Chromium; `PLAYWRIGHT_BROWSERS` selects any combination of `chromium`, `firefox` and `webkit`. CI runs the validated Chromium/Firefox pair for both base paths. Chromium uses installed `/usr/bin/chromium` when available, or Playwright's bundled browser otherwise; `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` can override it. Firefox and optional WebKit use Playwright's installed binaries. This computer's prepared environment supplies the downloaded browser cache. To investigate WebKit separately, install it with `npx playwright install --with-deps webkit` and select `PLAYWRIGHT_BROWSERS=webkit`; the local media limitation below remains unresolved.
+Tests default to Chromium; `PLAYWRIGHT_BROWSERS` selects any combination of `chromium`, `firefox` and `webkit`. CI runs the Chromium/Firefox pair for both base paths. All browsers use the binaries installed for the pinned Playwright version; `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` explicitly overrides Chromium when needed. System Chromium is never selected automatically, because its version and codec support can differ from the tested browser. Linux Firefox also needs the system H.264 decoder supplied by FFmpeg; Playwright's browser dependency installation does not install it. CI installs FFmpeg before playback checks. This computer's prepared environment supplies the downloaded browser cache and already has FFmpeg. To investigate WebKit separately, install it with `npx playwright install --with-deps webkit` and select `PLAYWRIGHT_BROWSERS=webkit`; the local media limitation below remains unresolved.
 
 Tests serve the built website on `PLAYWRIGHT_PORT` and a real local Astro media fixture on the next port. Override the fixture with `PLAYWRIGHT_FIXTURE_PORT` when necessary. Use free ports, such as 4323/4324, to keep an existing 4321 development preview available. The fixture is excluded from the published website.
 

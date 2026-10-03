@@ -1,5 +1,4 @@
 import { defineConfig } from '@playwright/test';
-import { existsSync } from 'node:fs';
 const base = process.env.BASE_PATH ?? '/website';
 const port = Number(process.env.PLAYWRIGHT_PORT ?? 4321);
 if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('PLAYWRIGHT_PORT must be a valid port number');
@@ -8,7 +7,7 @@ if (!Number.isInteger(fixturePort) || fixturePort < 1 || fixturePort > 65535 || 
 const requestedBrowsers = [...new Set((process.env.PLAYWRIGHT_BROWSERS ?? 'chromium').split(',').map(name => name.trim()))];
 const browserNames = ['chromium', 'firefox', 'webkit'] as const;
 if (requestedBrowsers.some(name => !browserNames.includes(name as typeof browserNames[number]))) throw new Error('PLAYWRIGHT_BROWSERS must list chromium, firefox, or webkit');
-const browserPath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH ?? (existsSync('/usr/bin/chromium') ? '/usr/bin/chromium' : undefined);
+const browserPath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH;
 export default defineConfig({
   testDir: './tests',
   fullyParallel: false,
