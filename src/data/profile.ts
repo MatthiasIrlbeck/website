@@ -1,13 +1,10 @@
 export const profile = {
   name: 'Matthias Irlbeck',
-  role: 'Postdoctoral researcher in mathematics',
-  institution: 'University of Hamburg',
   biography: [
     'I am a postdoctoral researcher in mathematics at the University of Hamburg working together with Jack Hanson.',
     'Before that, I completed my PhD at the University of Groningen with Tobias Müller.',
     'My research is in discrete probability theory, with a focus on percolation, random graphs, and stochastic geometry.',
   ],
-  biographyNeedsReview: false,
   portrait: {
     src: '/images/Matthias_Irlbeck.jpg',
     alt: 'Portrait of Matthias Irlbeck',

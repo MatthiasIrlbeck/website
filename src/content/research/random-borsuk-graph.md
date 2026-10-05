@@ -4,7 +4,6 @@ authors: [Álvaro Acitores Montero, Tobias Müller, Matěj Stehlík]
 status: Preprint
 order: 2
 summary: We locate colouring transitions in random graphs with nearly antipodal edges and relate the sharp two-colour threshold to continuum percolation.
-needsReview: true
 links:
   - label: arXiv
     url: https://arxiv.org/abs/2603.05467
