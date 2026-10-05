@@ -1,8 +1,8 @@
 # Matthias Irlbeck — academic website
 
-A portable static Astro website prepared for `https://www.matthiasirlbeck.com/`. The single homepage contains biography/portrait, Research, Short CV, and Contact, in that order. Research uses native disclosures and build-time KaTeX HTML/MathML. No framework runtime, remote fonts, math CDN, YouTube embed, contact form, or separate Animations route is used.
+A portable static Astro website published at `https://www.matthiasirlbeck.com/` through GitHub Pages, observed on 5 October 2026. The single homepage contains biography/portrait, Research, Short CV, and Contact, in that order. Research uses native disclosures and build-time KaTeX HTML/MathML. No framework runtime, remote fonts, math CDN, YouTube embed, contact form, or separate Animations route is used.
 
-The supplied portrait, four research videos/posters, and both thesis PDFs are integrated. Each research entry has a supplied clip; missing optional assets remain intentional states. Review wording and academic metadata before launch; see [CONTENT_TODO.md](CONTENT_TODO.md). Review flags remain internal and the homepage shows no Draft notice. Noindex is not access control: the repository and a deployed review site are public.
+The supplied portrait, four research videos/posters, and both thesis PDFs are integrated. Each research entry has a supplied clip; missing optional assets remain intentional states. Remaining wording and academic metadata reviews are tracked in [CONTENT_TODO.md](CONTENT_TODO.md). Review flags remain internal and the homepage shows no Draft notice. Local draft builds include noindex; production builds omit it. Noindex is not access control: the repository and any deployed review site are public. The latest owner-requested CV Advisor wording is present locally and has not yet been published.
 
 ## Setup and local review
 
@@ -56,7 +56,7 @@ npm run test:paths
 npm run build
 ```
 
-The variables must agree between build and preview/tests. The commands above use draft defaults; unset any production shell exports before returning to them. Root-path draft testing does not change a live domain. The owner has explicitly authorized preparing production output in a separate launch PR; merging and the manual Pages/DNS cutover remain outstanding.
+The variables must agree between build and preview/tests. The commands above use draft defaults; unset any production shell exports before returning to them. Root-path draft testing does not change the live domain. The production site is already live; local builds and branch edits remain review work until an approved update is deployed.
 
 ### Production build and local preview
 
@@ -72,7 +72,7 @@ PLAYWRIGHT_BROWSERS=chromium,firefox PLAYWRIGHT_PORT=4335 npm run test:browser
 npm run preview -- --ignore-lock --host 127.0.0.1 --port 4335
 ```
 
-Open **http://127.0.0.1:4335/**. This serves the built `dist/` output at the domain root, with production metadata, without publishing it. Stop the foreground preview with Ctrl+C. The build emits `https://www.matthiasirlbeck.com/` as the canonical/Open Graph URL and root asset/document URLs without `/website`. Research permalinks retain their existing `/#entry-id` and subsection fragments. Production has no robots meta restriction; there is currently no sitemap, `robots.txt`, CNAME, or custom response-header file in the source. Verify actual hosting response headers after the owner-managed cutover.
+Open **http://127.0.0.1:4335/**. This serves the built `dist/` output at the domain root, with production metadata, without publishing it. Stop the foreground preview with Ctrl+C. The build emits `https://www.matthiasirlbeck.com/` as the canonical/Open Graph URL and root asset/document URLs without `/website`. Research permalinks retain their existing `/#entry-id` and subsection fragments. Production has no robots meta restriction; there is currently no sitemap, `robots.txt`, CNAME, or custom response-header file in the source. Check actual hosting response headers after each deployment.
 
 To resume the ordinary local draft workflow in the same shell:
 
@@ -95,7 +95,7 @@ Tests default to Chromium; `PLAYWRIGHT_BROWSERS` selects any combination of `chr
 
 Tests serve the built website on `PLAYWRIGHT_PORT` and a real local Astro media fixture on the next port. Override the fixture with `PLAYWRIGHT_FIXTURE_PORT` when necessary. Use free ports, such as 4323/4324, to keep an existing 4321 development preview available. The fixture is excluded from the published website.
 
-Current launch validation and preview details are recorded in [REVIEW_NOTES.md](REVIEW_NOTES.md). The following paragraphs retain results from earlier content/layout audits; their draft-build restoration statements describe those earlier runs.
+Current maintenance status and historical validation details are recorded in [REVIEW_NOTES.md](REVIEW_NOTES.md). Results dated 2–3 October describe those earlier revisions; the fresh 5 October WebKit and screen-reader checks are distinguished below.
 
 The layout/architecture audit on 3 October 2026 keeps all website content unchanged. Type/content checks report zero errors, warnings and hints; both static builds pass; all **144 Chromium/Firefox checks** pass: 36 per engine for each of `/website/` and `/`. Coverage now measures publication spacing and link targets across eleven viewport widths, research layout around the 960px breakpoint, and contact separation/alignment with enlarged text. Desktop/mobile screenshots of every expanded entry, narrow Contact views and A4 print exports were inspected and saved in `artifacts/layout-audit/`. Print exports remain two pages collapsed and five fully expanded. The default project build is restored; see [REVIEW_NOTES.md](REVIEW_NOTES.md) for the exact changes and remaining limits.
 
@@ -105,7 +105,11 @@ Coverage includes keyboard disclosures and paper links, entry/subsection fragmen
 
 Final individual-entry screenshots and print PDFs are in `artifacts/screenshots/website-improvements/`. Suite screenshots are stored under `artifacts/screenshots/project/<browser>/`, `artifacts/screenshots/root/<browser>/` and `artifacts/screenshots/production/<browser>/`: collapsed, representative expanded, all-expanded and video views. `mobile-200-percent-text.png` is a viewport capture. These directories, reports and traces are ignored and never published; PR checks retain Actions artifacts for 14 days. The text enlargement check doubles the root font size; it is not a native browser-zoom or screen-reader test. Actual NVDA/VoiceOver speech, native Safari and iOS have not been tested.
 
-**WebKit remains a separate compatibility check.** On this Linux Mint/GStreamer setup, 19 of 26 project-path checks passed; seven media checks failed: six seek-near-end loop checks and one multiple-clip pause timeout. A plain native video without the website controller reproduced the seek stall. A temporary H.264 rendition without B-frames was about 40% larger and did not fix it; all supplied originals and served web assets remain unchanged. A subsequent 50-second trial with a plain native WebKit video completed two automatic loops during natural playback. The six scripted near-end seek failures and the fixture pause timeout remain unresolved; native Safari/iOS have not been tested.
+**Fresh WebKit verification — 5 October 2026.** The production-root run passes 32 of 44 checks, including all six new sticky-focus tests. Twelve checks fail: eight near-end seek/loop checks, a multiple-clip pause/close timeout, a pause-on-new-reduced-motion timeout, a native keyboard/hash summary-scroll timeout, and a tap-height assertion measuring 43.96875px against a 43.99px threshold. The report is `/tmp/website-focus-webkit-aa9ht3ru/production-root-report/index.html`. A fresh 51-second plain-native-video trial continued playing without errors and recorded three playback-time resets, but their timing did not match the clip duration; that trial does not establish complete natural loops. These results retain compatibility limitations; native Safari/iOS have not been tested.
+
+**Screen-reader verification — 5 October 2026.** Orca 42 with headful Chromium generated utterances confirming all 12 headings and their levels, paper-specific disclosure names and expanded/collapsed states, Play video, native Pause/full-screen/more-options controls, a time scrubber, Copy email and live “Email copied.” feedback. The runs used isolated Xvfb/private D-Bus and a silent Speech Dispatcher backend: generated speech was logged, without audible listening. **Mathematical speech failed in this tested stack:** MathML was encountered, but inline symbols were omitted and display equations were announced as “blank” or generated only pauses. Before a video source loaded, the native player was announced as “Unable to play media. video grayed.”; Play video subsequently worked. These are recorded accessibility follow-ups, with no mathematics or player-markup change made. The initial D-Bus attempt changed the desktop toolkit-accessibility flag; its prior false value was restored and verified. Both corrected runs preserve the restored user-preferences hash/modification time and false accessibility flags; private processes, server and X display were stopped. Evidence is in `/tmp/website-orca-math-8reo9_1c/`. Actual NVDA/VoiceOver and native Safari/iOS checks remain open in CONTENT_TODO.md.
+
+**Historical WebKit evidence — 2–3 October 2026.** On this Linux Mint/GStreamer setup, 19 of 26 project-path checks passed; seven media checks failed: six seek-near-end loop checks and one multiple-clip pause timeout. A plain native video without the website controller reproduced the seek stall. A temporary H.264 rendition without B-frames was about 40% larger and did not fix it; all supplied originals and served web assets remain unchanged. A subsequent 50-second trial with a plain native WebKit video was recorded as completing two automatic loops during natural playback. Those earlier observations describe that trial, separately from the fresh results above.
 
 The downloaded WebKit engine was enabled without OS installation by extracting missing libraries under `/tmp/website-browser-deps/root`. That temporary setup used `LD_LIBRARY_PATH=/tmp/website-browser-deps/root/usr/lib/x86_64-linux-gnu` and `LD_PRELOAD` pointing to its `libgav1.so.0`, `libyuv.so.0` and `libavif.so.13`; preloading was needed because the bundled launcher replaces its library path. This machine-local workaround is not shipped or required by the website. Installation or an engine smoke test is not a passing media suite.
 
@@ -184,15 +188,25 @@ ffmpeg -nostdin -ss 3 -i source-assets/media/0001-0900.mkv \
 
 All four supplied original videos are preserved byte-for-byte in `source-assets/media/`, outside the public build tree and ignored by Git; their web renditions and posters are included in the review package. This excludes 47,213,686 bytes of originals from local static builds. Hashes were checked before and after relocation. Back up the originals separately before moving the workspace. Regeneration commands require those local originals. Compare outputs visually, including the diagram's fine edges. Supplied document files are included unchanged; the cover image is already incorporated into the PhD PDF.
 
+## Dependency advisory monitoring
+
+```sh
+npm run audit:security
+```
+
+This runs `npm audit --package-lock-only --ignore-scripts` against the committed dependency lockfile without installing packages or changing versions. The dedicated `.github/workflows/dependency-security.yml` uses read-only repository permissions and supports manual dispatch. Once it is on the default branch, its schedule runs every Monday at 06:00 UTC. Findings remain visible through the command's nonzero exit status; the workflow does not suppress advisories, update dependencies, merge changes or deploy the site.
+
+As of 5 October 2026, [GHSA-ch52-4w7c-c8xp / CVE-2026-93748](https://github.com/advisories/GHSA-ch52-4w7c-c8xp) remains an active high-severity advisory for `http-cache-semantics`, with no patched version listed. The [upstream maintainer disputes the report](https://github.com/kornelski/http-cache-semantics/issues/56#issuecomment-5975759591), and the [withdrawal-review request remains open](https://github.com/github/advisory-database/issues/10139). No verified patch was identified; dependency versions and the lockfile are unchanged. The dispute is not an official withdrawal, and the monitoring command currently reports the finding. Track a verified fix or official advisory resolution in CONTENT_TODO.md.
+
 ## GitHub review and deployment
 
-PR #3 has been merged into `main`. The separate `launch/production-domain` branch prepares the production configuration for review. Its PR must remain unmerged until the owner is ready for the cutover. Branch pushes and pull requests run **Check website** for draft `/website`, draft `/` and production `/`; they do not deploy. REVIEW_NOTES.md records validation and CONTENT_TODO.md retains unresolved content and launch work.
+The production domain already serves the Astro site through GitHub Pages. GitHub verification confirms [launch PR #4](https://github.com/MatthiasIrlbeck/website/pull/4) merged on 3 October 2026; who changed the hosting or DNS settings remains unconfirmed. Check the actual branch and PR state before preparing updates; a historical branch name is not publication evidence. Branch pushes and pull requests run **Check website** for draft `/website`, draft `/` and production `/`; they do not deploy. REVIEW_NOTES.md records validation and CONTENT_TODO.md retains unresolved content and maintenance work.
 
-The **Deploy website to GitHub Pages** workflow builds/checks/uploads `dist` with the explicit production values above. Only its deploy job receives Pages-write/OIDC permissions, and that job runs only for `main`. It also supports manual dispatch from `main`. Merging this launch PR will trigger that workflow, so coordinate the merge with the owner-managed Pages/DNS cutover. No custom-domain setting, DNS record, CNAME file or existing Google Sites page is changed by this PR.
+The **Deploy website to GitHub Pages** workflow requires `npm run check`, the production build and the Chromium/Firefox browser suite to pass before uploading `dist`. Its build job uses the explicit production values above and `PLAYWRIGHT_BROWSERS=chromium,firefox`, installs the pinned browser binaries and system FFmpeg, then runs `npm run test:browser`. A failure stops artifact upload and deployment. Only its deploy job receives Pages-write/OIDC permissions, and that job runs only for `main` after the build job succeeds. It also supports manual dispatch from `main`. An approved merge into `main` triggers a production update; the owner reviews and authorizes merging. A local preview or an unmerged PR does not publish the changes.
 
-The owner will manually confirm GitHub Pages uses GitHub Actions, set its custom domain to `www.matthiasirlbeck.com`, and update the relevant Porkbun DNS records. Preserve unrelated mail and verification records. After the cutover, inspect the deployment result, HTTPS, the canonical `www` host and redirects from any alternate host, then verify assets, thesis links, research fragments and crawler response headers at `https://www.matthiasirlbeck.com/`.
+Preserve the existing custom domain, GitHub Pages and Porkbun DNS settings, including unrelated mail and verification records. Ordinary content updates do not require changing them. After a deployed update, inspect the deployment result, HTTPS, the canonical `www` host and redirects from alternate hosts, then verify assets, thesis links, research fragments and crawler response headers at `https://www.matthiasirlbeck.com/`.
 
-An optional smoke check after the actual cutover:
+An optional live smoke check after a deployment:
 
 ```sh
 curl --fail --silent --show-error --dump-header /tmp/website-live-headers.txt \
@@ -210,7 +224,7 @@ console.log('Homepage and indexing smoke check passed; also inspect links and me
 JS
 ```
 
-Test the live site on desktop and a phone, including native Safari/iOS playback, before claiming full browser compatibility. The local preview verifies the built files; it cannot verify future DNS, HTTPS or GitHub/custom-domain headers.
+Test the live site on desktop and a phone, including native Safari/iOS playback, before claiming full browser compatibility. The local preview verifies the built files; it does not verify live DNS, HTTPS or GitHub/custom-domain headers.
 
 ## Continuing local edits
 

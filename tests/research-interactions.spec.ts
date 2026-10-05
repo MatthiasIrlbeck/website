@@ -1,4 +1,68 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Locator, type Page } from '@playwright/test';
+
+async function settleFocus(page: Page) {
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+}
+
+async function tabTo(page: Page, target: Locator) {
+  for (let i = 0; i < 12; i++) {
+    await page.keyboard.press('Tab');
+    await settleFocus(page);
+    if (await target.evaluate(element => element === document.activeElement)) return;
+  }
+  await expect(target).toBeFocused();
+}
+
+for (const { width, fontSize } of [{ width: 320, fontSize: 16 }, { width: 320, fontSize: 32 }, { width: 800, fontSize: 32 }]) {
+  for (const control of ['proof', 'Play video']) {
+    test(`sticky close keeps focused ${control} clear at ${width}px with ${fontSize}px text`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 844 });
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await page.goto('./');
+      await page.addStyleTag({ content: `html { font-size: ${fontSize}px !important; }` });
+      await page.evaluate(() => document.fonts.ready);
+      const entry = page.locator('#random-borsuk-graph');
+      const summary = entry.locator('summary');
+      const target = control === 'proof'
+        ? entry.getByRole('link', { name: 'proof', exact: true })
+        : entry.getByRole('button', { name: 'Play video', exact: true });
+      await summary.focus();
+      await summary.press('Enter');
+      await settleFocus(page);
+      await tabTo(page, target);
+
+      // Ordinary focus on an already clear control must keep the reading position.
+      await page.keyboard.press('Shift+Tab');
+      await settleFocus(page);
+      await target.evaluate(element => window.scrollBy(0, element.getBoundingClientRect().top - 300));
+      await settleFocus(page);
+      const clearScroll = await page.evaluate(() => scrollY);
+      await page.keyboard.press('Tab');
+      await settleFocus(page);
+      await expect(target).toBeFocused();
+      expect(await page.evaluate(() => scrollY)).toBe(clearScroll);
+
+      // Reproduce a reader scrolling the next control behind the sticky summary.
+      await page.keyboard.press('Shift+Tab');
+      await settleFocus(page);
+      await target.evaluate(element => window.scrollBy(0, element.getBoundingClientRect().top - 13));
+      await settleFocus(page);
+      expect(await target.evaluate(element => {
+        const bounds = element.getBoundingClientRect();
+        const close = element.closest('.research-entry')!.querySelector('summary')!;
+        return close.contains(document.elementFromPoint(bounds.left + bounds.width / 2, bounds.top + bounds.height / 2));
+      })).toBe(true);
+      await page.keyboard.press('Tab');
+      await expect(target).toBeFocused();
+      await expect.poll(() => target.evaluate(element => {
+        const bounds = element.getBoundingClientRect();
+        const close = element.closest('.research-entry')!.querySelector('summary')!.getBoundingClientRect();
+        const hit = document.elementFromPoint(bounds.left + bounds.width / 2, bounds.top + bounds.height / 2);
+        return bounds.top >= close.bottom + 5 && bounds.bottom <= innerHeight && element.contains(hit);
+      })).toBe(true);
+    });
+  }
+}
 
 for (const entryId of ['typical-voronoi-cell', 'random-borsuk-graph']) {
   test(`mobile closing restores visible focus after reading ${entryId}`, async ({ page }) => {

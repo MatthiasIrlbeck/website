@@ -1,6 +1,6 @@
 # Content sources and confirmed owner wording
 
-These notes record the current content's sources and the owner's confirmed updates. The original public homepage supplied the initial research list; later owner instructions and supplied assets supersede the old handoff's missing-content assumptions. Keep unresolved owner review and launch work in CONTENT_TODO.md. Do not browse unrelated private repositories for additional material.
+These notes record the current content's sources and the owner's confirmed updates. The original public homepage supplied the initial research list; later owner instructions and supplied assets supersede the old handoff's missing-content assumptions. Keep unresolved owner review and maintenance work in CONTENT_TODO.md. Do not browse unrelated private repositories for additional material.
 
 ## Confirmed direction and basic profile
 Name: Matthias Irlbeck.
@@ -16,7 +16,7 @@ Do not import the old site's final-year-PhD introduction as current information.
 
 ## Research metadata
 Source: https://www.matthiasirlbeck.com/ (read 1 October 2026).
-The homepage is known to be partly outdated. It was the starting point, rather than evidence of current publication status. The three supplied arXiv pages were checked again on 3 October 2026 against the intended titles and author lists. The submission dates below are source records; the owner has requested that project years be omitted from the homepage. The arXiv pages have no journal reference; the targeted exact-title searches on 2 October did not find a journal version. Absence from those searches does not establish whether a manuscript has been accepted or submitted elsewhere, so keep the owner's publication labels pending owner review.
+The original homepage read on 1 October was partly outdated. It was the starting point, rather than evidence of current publication status. The three supplied arXiv pages were checked again on 3 October 2026 against the intended titles and author lists. The submission dates below are source records; the owner has requested that project years be omitted from the homepage. The arXiv pages have no journal reference; the targeted exact-title searches on 2 October did not find a journal version. Absence from those searches does not establish whether a manuscript has been accepted or submitted elsewhere, so keep the owner's publication labels pending owner review.
 
 ### 1. On the shape of the typical Poisson-Voronoi cell in high dimensions
 Coauthors: Zakhar Kabluchko and Tobias Müller.
@@ -108,7 +108,9 @@ On 3 October the owner supplied `public/media/0001-0900.mkv` for the high-dimens
 
 The owner confirms the plain-text email `matthias.irlbeck@uni-hamburg.de` and room 908 in the Geomatikum. The [University of Hamburg mathematics department](https://www.math.uni-hamburg.de/service/zentral.html) confirms Bundesstraße 55, 20146 Hamburg (checked 2 October 2026). The Contact invitation is the owner's "Feel free to reach out to me!"; no mailto or academic-profile links are displayed.
 
-At the owner's request, native videos play muted and loop only while the relevant details are open, the video is in view, and the tab is active. Manual pauses persist; reduced-motion preferences and an explicit browser `navigator.connection.saveData` preference keep playback manual. Browsers without the data-saving API retain the normal playback behaviour. Research review flags remain internal, and the page shows no Draft or approval notice. Local draft builds still include noindex metadata. On 3 October the owner explicitly authorized preparing the production configuration for `https://www.matthiasirlbeck.com`, at `/` with `DRAFT_SITE=false`, in a separate unmerged PR. Approved content and remaining owner-review tasks are preserved. The owner will perform GitHub Pages/DNS changes and the live cutover manually.
+At the owner's request, native videos play muted and loop only while the relevant details are open, the video is in view, and the tab is active. Manual pauses persist; reduced-motion preferences and an explicit browser `navigator.connection.saveData` preference keep playback manual. Browsers without the data-saving API retain the normal playback behaviour. Research review flags remain internal, and the page shows no Draft or approval notice. Local draft builds still include noindex metadata. The 3 October production-configuration preparation used `https://www.matthiasirlbeck.com`, `/` and `DRAFT_SITE=false` in a separate PR that was unmerged at that time. On 5 October, the domain was observed serving the Astro site through GitHub Pages, and GitHub verification confirmed [launch PR #4](https://github.com/MatthiasIrlbeck/website/pull/4) merged on 3 October 2026. Who changed hosting/DNS settings remains unconfirmed. Preserve the existing production configuration and remaining owner-review tasks during maintenance; local edits do not publish themselves.
+
+The latest owner-requested Short CV edit changes the displayed label to “Advisor” for the PhD and master's entries and adds “Advisor: Jack Hanson” to the postdoctoral row. It is present in the local source and has not yet been published. The names and thesis documents remain the confirmed content recorded above.
 
 
 ## Website audit implementation — 3 October 2026
