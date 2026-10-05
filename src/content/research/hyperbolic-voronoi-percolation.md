@@ -4,7 +4,6 @@ authors: [Tobias Müller]
 status: Preprint
 order: 3
 summary: A unique unbounded cluster requires a black-cell probability bounded away from zero, uniformly over the density of sites in hyperbolic space.
-needsReview: true
 links:
   - label: arXiv
     url: https://arxiv.org/abs/2607.17764

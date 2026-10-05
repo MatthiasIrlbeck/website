@@ -4,7 +4,6 @@ authors: [Zakhar Kabluchko, Tobias Müller]
 status: arXiv expected soon
 order: 4
 summary: We determine the percolation threshold in high dimensions, confirming the branching-process prediction based on the mean number of neighbouring cells.
-needsReview: true
 links:
   - label: PhD thesis
     url: /documents/PhD_thesis_matthias_irlbeck.pdf

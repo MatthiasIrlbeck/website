@@ -4,7 +4,6 @@ authors: [Zakhar Kabluchko, Tobias Müller]
 status: Preprint
 order: 1
 summary: The typical Poisson-Voronoi cell remains far from every ball in high dimensions, although all its vertices lie near a common sphere.
-needsReview: true
 links:
   - label: arXiv
     url: https://arxiv.org/abs/2506.02607
