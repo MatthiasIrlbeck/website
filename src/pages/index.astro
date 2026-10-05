@@ -67,11 +67,12 @@ const canonicalUrl = new URL(homeUrl, siteUrl);
                 <div>
                   <h3>{row.title}</h3>
                   <p>{row.institution}</p>
+                  {row.advisor && <div class="thesis-details"><span class="thesis-supervisor">Advisor: {row.advisor}</span></div>}
                   {row.thesis && <div class="thesis-details">
                     <span class="thesis-document">
                       {row.thesis.url ? <a class="thesis-link" href={assetUrl(row.thesis.url)} target="_blank" rel="noopener noreferrer">{row.thesis.label}{row.thesis.title && <>: {row.thesis.title}</>}</a> : <span class="thesis-placeholder">{row.thesis.label}{row.thesis.title && <>: {row.thesis.title}</>} <span>PDF unavailable</span></span>}
                     </span>
-                    {row.thesis.supervisor && <span class="thesis-supervisor">Supervisor: {row.thesis.supervisor}</span>}
+                    {row.thesis.supervisor && <span class="thesis-supervisor">Advisor: {row.thesis.supervisor}</span>}
                   </div>}
                 </div>
               </li>

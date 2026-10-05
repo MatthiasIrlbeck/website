@@ -15,7 +15,7 @@ The user's later explicit requests take precedence over provisional design choic
 ## Scope and permissions
 - Work only in this website repository. Do not import material from unrelated private research repositories.
 - The owner explicitly authorizes preparing the production build for `https://www.matthiasirlbeck.com`, with `BASE_PATH=/` and `DRAFT_SITE=false`. Set these values in the actual deployment workflow, test the resulting output, and preserve approved design/content.
-- Preserve the live Google Sites website until the owner performs the cutover. Do not change Porkbun DNS, GitHub Pages settings, transfer a domain, add a CNAME file, merge the launch PR, or enable auto-merge. The owner handles Pages/DNS changes manually.
+- The production domain is observed serving the Astro website through GitHub Pages as of 5 October 2026. Preserve that live site and its hosting/domain configuration. Do not change Porkbun DNS, GitHub Pages settings, transfer a domain, add a CNAME file, merge a pull request, or enable auto-merge. GitHub confirms launch PR #4 merged on 3 October 2026; who changed the hosting/DNS settings remains unconfirmed. The owner handles Pages/DNS changes manually.
 - Implement in a branch and offer changes for review. Do not merge your own pull request or enable auto-merge.
 - Do not commit secrets, residential contact details, unpublished private documents, node_modules, dist, large originals, or browser-test caches.
 - Do not apply a blanket open-source license to the owner's papers, portrait, theses, or videos. Dependency license requirements still apply.
@@ -26,8 +26,8 @@ The user's later explicit requests take precedence over provisional design choic
 - Use a currently stable Astro version and a compatible supported Node LTS; record and align the chosen runtime in local configuration, package metadata, CI, and documentation. Use npm and commit package-lock.json.
 - Separate editable content from components and CSS. One Markdown file per research entry and small data files for biography, CV, and contact are preferred.
 - Define colors, spacing, widths, and typography centrally. Do not redesign unrelated components during a targeted edit.
-- Support both a GitHub project-site base path and a later domain-root build. All local images, video, document links, scripts, and styles must resolve correctly in both cases.
-- Keep the `/website` draft defaults in `src/lib/site.ts` for local editing. Production deployment explicitly sets all three environment variables in `.github/workflows/deploy.yml`; CI tests draft project/root and production root builds. Use the production build/preview commands in README.md when reviewing launch output.
+- Support both the local draft project-site base path and the production domain-root build. All local images, video, document links, scripts, and styles must resolve correctly in both cases.
+- Keep the `/website` draft defaults in `src/lib/site.ts` for local editing. Production deployment explicitly sets all three environment variables in `.github/workflows/deploy.yml`; CI tests draft project/root and production root builds. Use the production build/preview commands in README.md when reviewing production output.
 - Render math at build time with KaTeX and its HTML/MathML output. Serve required styles/assets locally through the build; avoid runtime CDN dependencies.
 - Use correctly labelled buttons or native disclosure elements, visible keyboard focus, adequate contrast, reduced-motion support, and a mobile layout without page-wide overflow.
 
@@ -35,4 +35,4 @@ The user's later explicit requests take precedence over provisional design choic
 - Run the available build, type/content checks, and browser tests. Inspect real desktop and mobile screenshots, including at least one expanded entry.
 - Never describe a screenshot, test, playback check, deployment, or live link as successful unless it was actually produced or checked.
 - Missing user assets must not block the draft or produce broken requests. Record which functionality cannot be fully tested without them.
-- Update README.md with exact setup, preview, editing, and publishing instructions and keep a single CONTENT_TODO.md for missing content and launch checks.
+- Update README.md with exact setup, preview, editing, and publishing instructions and keep a single CONTENT_TODO.md for missing content and maintenance checks.

@@ -14,6 +14,21 @@ window.addEventListener('hashchange', openHashEntry);
 
 for (const details of document.querySelectorAll<HTMLDetailsElement>('.research-details')) {
   const summary = details.querySelector<HTMLElement>(':scope > summary')!;
+  details.addEventListener('focusin', event => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement) || summary.contains(target)) return;
+    requestAnimationFrame(() => {
+      if (!details.open || document.activeElement !== target || getComputedStyle(summary).position !== 'sticky') return;
+      const summaryBounds = summary.getBoundingClientRect();
+      const coveredRects = [...target.getClientRects()].filter(rect =>
+        rect.left < summaryBounds.right && rect.right > summaryBounds.left && rect.top < summaryBounds.bottom);
+      if (!coveredRects.length) return;
+      // Native focus scrolling does not account for the sticky close control.
+      // Reveal the focused link/player, including its outline, only if needed.
+      const targetTop = Math.min(...coveredRects.map(rect => rect.top));
+      window.scrollBy({ top: targetTop - summaryBounds.bottom - 8, behavior: 'instant' });
+    });
+  });
   summary.addEventListener('click', () => {
     if (!details.open || getComputedStyle(summary).position !== 'sticky') return;
     // Native closing removes the sticky position and can leave the focused

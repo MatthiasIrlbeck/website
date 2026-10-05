@@ -2,7 +2,13 @@
 
 Prepared for Matthias Irlbeck on 1 October 2026.
 
-## Current launch authorization — 3 October 2026
+## Current maintenance status — 5 October 2026
+
+`https://www.matthiasirlbeck.com/` is already observed serving the Astro website through GitHub Pages. Keep `SITE_URL=https://www.matthiasirlbeck.com`, `BASE_PATH=/` and `DRAFT_SITE=false` for production; retain the existing local draft defaults for editing and test draft project/root and production root output. Preserve the live custom domain, hosting and DNS settings. Prepare future updates for owner review without merging or deploying them unless authorized. The latest owner-requested CV Advisor wording is local and has not yet been published. GitHub verification confirms [launch PR #4](https://github.com/MatthiasIrlbeck/website/pull/4) merged on 3 October 2026; who changed hosting/DNS settings remains unconfirmed.
+
+The following sections retain the original handoff and launch-preparation record. Their cutover-pending, missing-asset, manual-playback and visible-Draft instructions are historical where later owner instructions supersede them. Current setup, content and maintenance guidance is in README.md, CONTENT_NOTES.md and CONTENT_TODO.md.
+
+## Historical launch authorization — 3 October 2026
 
 The owner has authorized a separate launch-configuration PR for `https://www.matthiasirlbeck.com`. The production GitHub Actions build must explicitly set `SITE_URL=https://www.matthiasirlbeck.com`, `BASE_PATH=/`, and `DRAFT_SITE=false`, with no unintended indexing restrictions. Preserve the approved design and content. Keep draft defaults for continuing local editing and test both draft paths plus production output. This supersedes the historical draft-only deployment/indexing instructions below for production configuration preparation. Do not merge the launch PR or change Porkbun DNS, GitHub Pages settings, the live Google Sites site, or add a CNAME file; the owner will perform the cutover manually.
 

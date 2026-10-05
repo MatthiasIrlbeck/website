@@ -16,6 +16,7 @@ jobs:
       BASE_PATH: /
       DRAFT_SITE: 'false'
       ASTRO_TELEMETRY_DISABLED: '1'
+      PLAYWRIGHT_BROWSERS: chromium,firefox
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -25,6 +26,10 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm run build
+      - run: npx playwright install --with-deps chromium firefox
+      # Firefox needs system H.264 codecs beyond Playwright's browser dependencies.
+      - run: sudo apt-get install --yes ffmpeg
+      - run: npm run test:browser
       - uses: actions/upload-pages-artifact@v5
         with:
           path: dist

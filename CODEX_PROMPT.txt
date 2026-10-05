@@ -1,3 +1,9 @@
+Historical handoff prompt — 1 October 2026
+
+The text below preserves the original first-build request. As observed on 5 October 2026, the Astro website is already live at https://www.matthiasirlbeck.com/ through GitHub Pages. Use START_HERE.md, README.md and AGENTS.md for current maintenance guidance, together with the owner's latest instructions.
+
+Original prompt:
+
 Read AGENTS.md, WEBSITE_BRIEF.md, and CONTENT_NOTES.md in this repository. Implement the first reviewable website now; do not stop at a plan.
 
 Build the specified static Astro site in a new review branch. Use explicit, intentional placeholders for missing assets or unconfirmed content rather than asking me to supply everything first. Preserve the four-section homepage, expandable LaTeX research explanations and integrated videos, and thesis-link fields in the Short CV. Do not create any separate Animations page or tab.
